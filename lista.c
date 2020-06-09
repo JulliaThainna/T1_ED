@@ -108,18 +108,19 @@ No *deletaLista(No *inicio){
 No *deletaElemento(No *inicio, int id){
     No *aux = inicio;
     No *ant = NULL;
-    if(aux->id == id){
+    if (aux->id == id){
         inicio = aux->prox;
         free(aux);
     }
-    while(aux != NULL && aux->prox->id != id){
-        ant = aux;
+    while (aux != NULL && aux->prox->id != id){
         aux = aux->prox;
     }
-    if(aux == NULL){
+    if (aux == NULL){
         printf("\nElemento não existe ou a lista não foi iniciada");
         return inicio;
     }
+    ant = aux;
+    aux = aux->prox;
     ant->prox = aux->prox;
     free(aux);
     return inicio;
@@ -140,6 +141,7 @@ No *deletaElemento(No *inicio, int id){
       ant->prox = aux->prox;
       free(aux);
     }
+    //else
     aux = aux->prox;
   }
   return inicio;
