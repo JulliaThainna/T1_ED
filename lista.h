@@ -57,6 +57,8 @@ No *adicionaElemento(No *inicio, int id, char tipo);
 No *imprimeLista(No *inicio);
 No *buscaElemento(No *inicio, int id);
 No *deletaLista(No *inicio);
+No *deletaElementoj(No *inicio, int id);
+No *deletaElementojk(No *inicio, int j, int k);
 No *adicionaRetangulo(No *inicio, int id, float w, float h, float x, float y, char corb[], char corp[]);
 No *adicionaCirculo(No *inicio, int id, float r, float x, float y, char corb[], char corp[]);
 No *adicionaTexto(No *inicio, int id, float x, float y, char texto[], char corb[], char corp[], int size);

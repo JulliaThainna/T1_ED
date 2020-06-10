@@ -6,6 +6,8 @@
 #include "leitura.h"
 #include "svg.h"
 
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 No *adicionaElemento(No *inicio, int id, char tipo){
     if(inicio == NULL){
@@ -57,7 +59,7 @@ No *buscaElemento(No *inicio, int id){
     return NULL;
 }
 
-No *imprimeLista(No *inicio){ //Enquanto o aux != NULL, printa
+No *imprimeLista(No *inicio){
     No *aux = inicio;
 
     printf("\n\t\tIMPRIMINDO LISTA . . . ");
@@ -105,12 +107,17 @@ No *deletaLista(No *inicio){
     return inicio;
 }
 
-No *deletaElemento(No *inicio, int id){
+No *deletaElementoj(No *inicio, int id){
     No *aux = inicio;
     No *ant = NULL;
     if (aux->id == id){
         inicio = aux->prox;
+        if(aux->tipo == 't'){
+            free(aux->fig->texto.texto);
+        }
+        free(aux->fig);
         free(aux);
+        return inicio;
     }
     while (aux != NULL && aux->prox->id != id){
         aux = aux->prox;
@@ -122,11 +129,16 @@ No *deletaElemento(No *inicio, int id){
     ant = aux;
     aux = aux->prox;
     ant->prox = aux->prox;
+    if (aux->tipo == 't'){
+        free(aux->fig->texto.texto);
+    }
+    free(aux->fig);
     free(aux);
     return inicio;
 }
 
-/*No *deletarElemento(No *inicio, int id){
+/*
+No *deletarElemento(No *inicio, int id){
   No *aux = inicio;
   No *ant = NULL;
   while (aux != NULL){
@@ -145,7 +157,7 @@ No *deletaElemento(No *inicio, int id){
     aux = aux->prox;
   }
   return inicio;
-}/*
+}
 
 Passo inicio da lista e id como parametros.
 Declaro uma variavel auxiliar que recebe o inicio da lista (para não perder o inicio)
@@ -158,9 +170,24 @@ Enquanto o auxiliar for diferente de NULL
         a variavel anterior recebe a variavel aux
         a variavel auxiliar recebe o proximo elemento da lista
         o proximo do anterior vai receber o proximo do auxiliar
-    Para percorrer a lista, faz-se auxiliar recebe o proximo elemento da lista                 
+    Para percorrer a lista, faz-se auxiliar recebe o proximo elemento da lista    (aqui problema)              
+*/
 
+No *deletaElementojk(No *inicio, int j, int k){
+    No *auxJ = buscaElemento(inicio, j);
+    if (auxJ == NULL){
+        printf("\nNao foi possivel encontrar o elemento. ID: %d!", j);
+    }
+    No *auxK = buscaElemento(inicio, k);
+    if (auxK == NULL){
+        printf("\nNao foi possivel encontrar o elemento. ID: %d!", k);
+    }
 
+    for(int i = MIN(j,k); i < MAX(j,k); i++){
+        deletaElementoj(inicio, i);
+    }
+    return inicio;
+}
 
 
 
