@@ -2,6 +2,6 @@
 #define tratastring_H_
 
 //Registros
-char *trataStringGeo(char dirEntrada[], char arqGeo[], char pathEntrada[], char nomeGeo[]);
-char *trataStringSvg(char dirSaida[], char arqGeo[], char pathSaida[], char nomeSvg[]);
+char *trataStringCaminho(char dirEntrada[], char arqGeo[], char pathEntrada[], char nomeGeo[]);
+char *trataStringTipo(char dirSaida[], char arqGeo[], char pathSaida[], char nomeSvg[], char tipo);
 #endif

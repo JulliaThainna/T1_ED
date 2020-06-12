@@ -22,7 +22,7 @@ No *abreQry(No *inicio, char *dirEntrada, char *arqQry, char pathEntrada[], char
         }
     }
     else{
-        pathEntrada = trataStringGeo(dirEntrada, arqQry, pathEntrada, nomeQry);
+        pathEntrada = trataStringCaminho(dirEntrada, arqQry, pathEntrada, nomeQry);
         printf("\n\t > Arquivo .qry: %s", pathEntrada);
         qry = fopen(pathEntrada, "r");
         if(!qry){
@@ -32,7 +32,7 @@ No *abreQry(No *inicio, char *dirEntrada, char *arqQry, char pathEntrada[], char
     }
     printf("\n\t Arquivo .qry aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
-    inicio = comandoQry(qry, inicio, pathEntrada);
+    //inicio = comandoQry(qry, inicio, pathEntrada);
     return inicio;
 }
 

@@ -10,7 +10,7 @@ No *desenhaSvg(No *inicio, char arqGeo[], char dirSaida[], char pathSaida[], cha
     FILE *arqSvg = NULL;
 
     printf("\n\t\tABRINDO ARQUIVO .svg . . . ");
-    pathSaida = trataStringSvg(dirSaida, arqGeo, pathSaida, nomeSvg);
+    pathSaida = trataStringTipo(dirSaida, arqGeo, pathSaida, nomeSvg, 's');
     printf("\n\t> Arquivo .svg: %s", pathSaida);
     arqSvg = fopen(pathSaida, "w");
     if(arqSvg == NULL){

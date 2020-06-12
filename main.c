@@ -91,11 +91,11 @@ int main(int argc, char *argv[]){
 
     lista = abreGeo(dirEntrada, arqGeo, pathEntrada, nomeGeo, lista);
     printf("\n\t---------------------------------------------------\n");
-    //lista = desenhaSvg(lista, arqGeo, dirSaida, pathSaida, nomeSvg);
+    lista = desenhaSvg(lista, arqGeo, dirSaida, pathSaida, nomeSvg);
     printf("\n\t---------------------------------------------------\n");
     //lista = imprimeLista(lista);
     printf("\n\t---------------------------------------------------\n");
-    lista = abreQry(lista, dirEntrada, arqQry, pathEntrada, nomeQry);
+    //lista = abreQry(lista, dirEntrada, arqQry, pathEntrada, nomeQry);
     printf("\n\t---------------------------------------------------\n");
 
     //Libera o espaço alocado para as variáveis
