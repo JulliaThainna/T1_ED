@@ -3,6 +3,6 @@
 
 #include "lista.h"
 //Registros
-No *abreGeo(char dirEntrada[], char arqGeo[], char pathEntrada[], char nomeGeo[], No *inicio);
-No *comandoGeo(FILE *geo, No *inicio, char pathEntrada[]);
+No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio);
+No *comandoGeo(FILE *geo, No *inicio);
 #endif

@@ -10,8 +10,10 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
-No *abreQry(No *inicio, char *dirEntrada, char *arqQry, char pathEntrada[], char nomeQry[]){
+No *abreQry(No *inicio, char *dirEntrada, char *arqQry){
     FILE *qry = NULL;
+    char *pathEntrada = NULL;
+
     printf("\n\t\tABRINDO ARQUIVO .qry . . . ");
     if(dirEntrada == NULL){
         printf("\n\t\t > Arquivo .svg: %s", arqQry);
@@ -22,7 +24,7 @@ No *abreQry(No *inicio, char *dirEntrada, char *arqQry, char pathEntrada[], char
         }
     }
     else{
-        pathEntrada = trataStringCaminho(dirEntrada, arqQry, pathEntrada, nomeQry);
+        pathEntrada = trataStringCaminho(dirEntrada, arqQry);
         printf("\n\t > Arquivo .qry: %s", pathEntrada);
         qry = fopen(pathEntrada, "r");
         if(!qry){
@@ -32,12 +34,13 @@ No *abreQry(No *inicio, char *dirEntrada, char *arqQry, char pathEntrada[], char
     }
     printf("\n\t Arquivo .qry aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
-    //inicio = comandoQry(qry, inicio, pathEntrada);
+    inicio = comandoQry(qry, inicio);
+    free(pathEntrada);
+
     return inicio;
 }
 
-No *comandoQry(FILE *qry, No *inicio, char pathEntrada[]){
-
+No *comandoQry(FILE *qry, No *inicio){
     bool retorno;
     int j = 0, k = 0;
     float x, y;
@@ -79,13 +82,14 @@ No *comandoQry(FILE *qry, No *inicio, char pathEntrada[]){
         }
         else if(strcmp(comando, "delf") == 0){
             fscanf(qry, "%d", &j);
+            deletaElementoj(inicio, j);
         }
         else if(strcmp(comando, "delf*") == 0){
             fscanf(qry, "%d %d", &j, &k);
+            deletaElementojk(inicio, j, k);
         }
     }
     fclose(qry);
-    free(pathEntrada);
     return inicio;
 }
 
@@ -313,5 +317,4 @@ void mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){
             strcpy(auxJ->fig->texto.corp, corp);
         }
     }
-
 }

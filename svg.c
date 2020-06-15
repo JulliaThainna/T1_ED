@@ -6,11 +6,12 @@
 #include "lista.h"
 #include "trataString.h"
 
-No *desenhaSvg(No *inicio, char arqGeo[], char dirSaida[], char pathSaida[], char nomeSvg[]){
+No *desenhaSvg(No *inicio, char arqGeo[], char dirSaida[]){
     FILE *arqSvg = NULL;
+    char *pathSaida = NULL;
 
     printf("\n\t\tABRINDO ARQUIVO .svg . . . ");
-    pathSaida = trataStringTipo(dirSaida, arqGeo, pathSaida, nomeSvg, 's');
+    pathSaida = trataStringTipo(dirSaida, arqGeo, 'g', 's'); //svg gerado pelo .geo
     printf("\n\t> Arquivo .svg: %s", pathSaida);
     arqSvg = fopen(pathSaida, "w");
     if(arqSvg == NULL){
@@ -25,6 +26,7 @@ No *desenhaSvg(No *inicio, char arqGeo[], char dirSaida[], char pathSaida[], cha
     printf("\n\tEXPORTANDO ELEMENTOS PARA O ARQUIVO .svg . . . ");
     //inicio = viewBoxSvg(inicio, arqSvg);
 
+    fprintf(arqSvg, "<svg>");
     while (aux != NULL){
         if (aux->fig != NULL){
             if (aux->tipo == 'c'){ // <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
@@ -39,10 +41,11 @@ No *desenhaSvg(No *inicio, char arqGeo[], char dirSaida[], char pathSaida[], cha
         }
         aux = aux->prox;
     }
+
     fprintf(arqSvg, "\n</svg>");
     fclose(arqSvg);
-    free(pathSaida);
     printf("\n\tElementos .geo adicionados no .svg com sucesso!");
-
+    free(pathSaida);
+    
     return inicio;
 }

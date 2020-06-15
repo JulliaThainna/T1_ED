@@ -17,31 +17,31 @@ typedef struct{
     float x, y;
 }Texto;
 
-typedef struct{
-    //
+/*typedef struct{
+    
 }Btracejada;
 
 typedef struct{
-    //
+
 }Bcheia;
 
 typedef struct{
-    //
+    
 }Ponto;
 
 typedef struct{
-    //
+    
 }Linha;
-
+*/
 
 typedef union{
     Retangulo ret;
     Circulo crl;
     Texto texto;
-    Bcheia bcheia;
-    Btracejada btrac;
-    Ponto ponto;
-    Linha linha;
+    //Bcheia bcheia;
+    //Btracejada btrac;
+    //Ponto ponto;
+    //Linha linha;
 }Info;
 
 typedef struct no{
@@ -57,7 +57,7 @@ No *adicionaElemento(No *inicio, int id, char tipo);
 No *imprimeLista(No *inicio);
 No *buscaElemento(No *inicio, int id);
 No *deletaLista(No *inicio);
-No *deletaElementoj(No *inicio, int id);
+No *deletaElementoj(No *inicio, int j);
 No *deletaElementojk(No *inicio, int j, int k);
 No *adicionaRetangulo(No *inicio, int id, float w, float h, float x, float y, char corb[], char corp[]);
 No *adicionaCirculo(No *inicio, int id, float r, float x, float y, char corb[], char corp[]);

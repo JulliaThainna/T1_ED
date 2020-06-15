@@ -7,19 +7,21 @@
 #include "consulta.h"
 #include "trataString.h"
 
-No *abreGeo(char dirEntrada[], char arqGeo[], char pathEntrada[], char nomeGeo[], No *inicio){
+No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
     FILE *geo = NULL;
+    char *pathEntrada = NULL;
+
     printf("\n\t\tABRINDO ARQUIVO .geo . . . ");
     if(dirEntrada == NULL){
         printf("\n\t\t > Arquivo .geo: %s", arqGeo);
         geo = fopen(arqGeo, "r");
         if(!geo){
-            printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
-            exit(1);
+           printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
+           exit(1);
         }
     }
     else{
-        pathEntrada = trataStringCaminho(dirEntrada, arqGeo, pathEntrada, nomeGeo);
+        //pathEntrada = trataStringCaminho(dirEntrada, arqGeo);
         printf("\n\t > Arquivo .geo: %s", pathEntrada);
         geo = fopen(pathEntrada, "r");
         if (!geo){
@@ -29,18 +31,18 @@ No *abreGeo(char dirEntrada[], char arqGeo[], char pathEntrada[], char nomeGeo[]
     }
     printf("\n\t Arquivo .geo aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
-    inicio = comandoGeo(geo, inicio, pathEntrada);
-
+    inicio = comandoGeo(geo, inicio);
+    free(pathEntrada);
     return inicio;
 }
 
-No *comandoGeo(FILE *geo, No *inicio, char pathEntrada[]){
-    printf("\n\t\tLENDO ARQUIVO .geo . . . ");
+No *comandoGeo(FILE *geo, No *inicio){
     int defaultNumMax = 1000, id, i = 0, buffer_size = 0;
     float r, x, y, w, h;
     char *texto = NULL;
     char comando[3] = {'\0', '\0', '\0'}, corb[22], corp[22], buffer;
 
+    printf("\n\t\tLENDO ARQUIVO .geo . . . ");
     while (i < defaultNumMax){
         fscanf(geo, "%s", comando);
         if (feof(geo)){
@@ -93,8 +95,6 @@ No *comandoGeo(FILE *geo, No *inicio, char pathEntrada[]){
         i++;
     }
     fclose(geo);
-    //free(pathEntrada);
     printf("\n\tLeitura do arquivo .geo finalizada com sucesso!");
-
     return inicio;
 }

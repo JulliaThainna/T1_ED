@@ -90,16 +90,16 @@ No *imprimeLista(No *inicio){
 No *deletaLista(No *inicio){
     /*Percorrer a lista, e todo elemento que encontrar apagar, porem tomar cuidado para nao
     perder o proximo.*/
-    No *aux;
+    No *aux = NULL;
     printf("\n\t\tDELETANDO LISTA . . . ");
     while(inicio != NULL){
         aux = inicio;
         inicio = inicio->prox;
         if(aux->tipo == 't'){
-            free(aux->fig->texto.texto); //perguntar
+            free(aux->fig->texto.texto);
         }
-        free(aux->fig);
-        free(aux);
+        free(aux->fig); //isso seria a ficha?
+        free(aux); //isso seria a folha?
     }
     printf("\n\tLista deletada com sucesso!");
     printf("\n\t---------------------------------------------------\n");
@@ -107,10 +107,10 @@ No *deletaLista(No *inicio){
     return inicio;
 }
 
-No *deletaElementoj(No *inicio, int id){
+No *deletaElementoj(No *inicio, int j){
     No *aux = inicio;
     No *ant = NULL;
-    if (aux->id == id){
+    if (aux->id == j){
         inicio = aux->prox;
         if(aux->tipo == 't'){
             free(aux->fig->texto.texto);
@@ -119,7 +119,7 @@ No *deletaElementoj(No *inicio, int id){
         free(aux);
         return inicio;
     }
-    while (aux != NULL && aux->prox->id != id){
+    while (aux != NULL && aux->prox->id != j){
         aux = aux->prox;
     }
     if (aux == NULL){

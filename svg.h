@@ -2,6 +2,6 @@
 #define svg_H_
 
 #include "lista.h"
-No *desenhaSvg(No *inicio, char arqGeo[], char dirSaida[], char pathSaida[], char nomeSvg[]);
+No *desenhaSvg(No *inicio, char arqGeo[], char dirSaida[]);
 
 #endif

@@ -15,11 +15,6 @@ int main(int argc, char *argv[]){
     char *arqGeo = NULL;
     char *arqQry = NULL;
     char *dirSaida = NULL;
-    char *pathEntrada = NULL;
-    char *nomeGeo = NULL;
-    char *pathSaida = NULL;
-    char *nomeSvg = NULL;
-    char *nomeQry = NULL;
 
     printf("\n\t---------------------------------------------------\n");
     for(int i = 1; argc > i; i++){    
@@ -89,25 +84,26 @@ int main(int argc, char *argv[]){
     }
     printf("\n\t---------------------------------------------------\n");
 
-    lista = abreGeo(dirEntrada, arqGeo, pathEntrada, nomeGeo, lista);
+    lista = abreGeo(dirEntrada, arqGeo, lista);
     printf("\n\t---------------------------------------------------\n");
-    lista = desenhaSvg(lista, arqGeo, dirSaida, pathSaida, nomeSvg);
+   // lista = desenhaSvg(lista, arqGeo, dirSaida);
     printf("\n\t---------------------------------------------------\n");
-    //lista = imprimeLista(lista);
+   // lista = imprimeLista(lista);
     printf("\n\t---------------------------------------------------\n");
-    //lista = abreQry(lista, dirEntrada, arqQry, pathEntrada, nomeQry);
+    
+    if(arqQry != NULL){
+        lista = abreQry(lista, dirEntrada, arqQry);
+    }
     printf("\n\t---------------------------------------------------\n");
 
     //Libera o espaço alocado para as variáveis
     lista = deletaLista(lista);
+    free(lista);
     free(dirEntrada);
     free(arqGeo);
     free(arqQry);
     free(dirSaida);
-    free(pathEntrada);
-    free(nomeGeo);
-    free(pathSaida);
-    free(nomeSvg);
+    
     printf("\n\t\tMemoria desalocada com sucesso!");
     printf("\n\t\tPROCESSO CONCLUIDO COM SUCESSO!\n");
     return 0;
