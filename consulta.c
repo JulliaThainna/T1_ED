@@ -6,17 +6,18 @@
 #include "lista.h"
 #include "consulta.h"
 #include "trataString.h"
+#include "txt.h"
 
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
-No *abreQry(No *inicio, char *dirEntrada, char *arqQry){
+No *abreQry(No *inicio, char dirEntrada[], char arqQry[], char pathSaida[]){
     FILE *qry = NULL;
     char *pathEntrada = NULL;
 
     printf("\n\t\tABRINDO ARQUIVO .qry . . . ");
     if(dirEntrada == NULL){
-        printf("\n\t\t > Arquivo .svg: %s", arqQry);
+        printf("\n\t\t > Arquivo .qry: %s", arqQry);
         qry = fopen(arqQry, "r");
         if(!qry){
             printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
@@ -34,27 +35,28 @@ No *abreQry(No *inicio, char *dirEntrada, char *arqQry){
     }
     printf("\n\t Arquivo .qry aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
-    inicio = comandoQry(qry, inicio);
+    inicio = comandoQry(qry, inicio, pathSaida);
     free(pathEntrada);
-
     return inicio;
 }
 
-No *comandoQry(FILE *qry, No *inicio){
+No *comandoQry(FILE *qry, No *inicio, char pathSaida[]){
     bool retorno;
     int j = 0, k = 0;
     float x, y;
-    char comando[6] = {'\0', '\0', '\0', '\0', '\0', '\0'}, corb[22], corp[22];
+    char comando[6], corb[22], corp[22];
     
     while(1){
         retorno = false;
-        fscanf(qry, "%s", comando);
+        fscanf(qry, "%s", comando); //vai pra proxima linha automaticamente?
         if(feof(qry)){
             break;
         }
         if(strcmp(comando, "o?") == 0){ 
             fscanf(qry, "%d %d", &j, &k);
             retorno = sobrepoe(inicio, j, k, retorno);
+            escreveTexto(pathSaida, comando, corb, corp, j, k, x, y, retorno);
+
             if(retorno == true){
                 //adicionaBcheia(inicio, j, k);
             }
@@ -65,6 +67,7 @@ No *comandoQry(FILE *qry, No *inicio){
         else if(strcmp(comando, "i?") == 0){
             fscanf(qry, "%d %f %f", &j, &x, &y);
             retorno = ponto(inicio, j, x, y, retorno);
+            escreveTexto(pathSaida, comando, corb, corp, j, k, x, y, retorno);
             if(retorno == true){
                 //adicionaPonto(inicio, j, x, y);
             }
@@ -75,18 +78,22 @@ No *comandoQry(FILE *qry, No *inicio){
         else if(strcmp(comando, "pnt") == 0){
             fscanf(qry, "%d %s %s", &j, corb, corp);
             mudaCorj(inicio, j, corb, corp);
+            escreveTexto(pathSaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "pnt*") == 0){
             fscanf(qry, "%d %d %s %s", &j, &k, corb, corp);
             mudaCorjk(inicio, j, k, corb, corp);
+            escreveTexto(pathSaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "delf") == 0){
             fscanf(qry, "%d", &j);
             deletaElementoj(inicio, j);
+            escreveTexto(pathSaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "delf*") == 0){
             fscanf(qry, "%d %d", &j, &k);
             deletaElementojk(inicio, j, k);
+            escreveTexto(pathSaida, comando, corb, corp, j, k, x, y, retorno);
         }
     }
     fclose(qry);

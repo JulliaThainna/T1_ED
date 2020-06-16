@@ -5,27 +5,21 @@
 #include "svg.h"
 #include "lista.h"
 #include "trataString.h"
+#include "criaArquivo.h"
 
-No *desenhaSvg(No *inicio, char arqGeo[], char dirSaida[]){
+//Fazer condição pro svg do qry
+No *desenhaSvg(No *inicio, char pathSaida[]){
+    
     FILE *arqSvg = NULL;
-    char *pathSaida = NULL;
 
-    printf("\n\t\tABRINDO ARQUIVO .svg . . . ");
-    pathSaida = trataStringTipo(dirSaida, arqGeo, 'g', 's'); //svg gerado pelo .geo
-    printf("\n\t> Arquivo .svg: %s", pathSaida);
     arqSvg = fopen(pathSaida, "w");
     if(arqSvg == NULL){
         printf("\nErro inesperado! Nao foi possivel criar arquivo .svg.");
         exit(1);
     }
-    printf("\n\tArquivo .svg aberto com sucesso!");
-    printf("\n\t---------------------------------------------------\n");
 
-    No *aux = inicio;
-    printf("\n\t\tLENDO ARQUIVO .svg . . . ");
-    printf("\n\tEXPORTANDO ELEMENTOS PARA O ARQUIVO .svg . . . ");
     //inicio = viewBoxSvg(inicio, arqSvg);
-
+    No *aux = inicio;
     fprintf(arqSvg, "<svg>");
     while (aux != NULL){
         if (aux->fig != NULL){
@@ -45,7 +39,6 @@ No *desenhaSvg(No *inicio, char arqGeo[], char dirSaida[]){
     fprintf(arqSvg, "\n</svg>");
     fclose(arqSvg);
     printf("\n\tElementos .geo adicionados no .svg com sucesso!");
-    free(pathSaida);
     
     return inicio;
 }

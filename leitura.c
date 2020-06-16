@@ -21,7 +21,7 @@ No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
         }
     }
     else{
-        //pathEntrada = trataStringCaminho(dirEntrada, arqGeo);
+        pathEntrada = trataStringCaminho(dirEntrada, arqGeo);
         printf("\n\t > Arquivo .geo: %s", pathEntrada);
         geo = fopen(pathEntrada, "r");
         if (!geo){

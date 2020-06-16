@@ -6,6 +6,7 @@
 #include "leitura.h"
 #include "consulta.h"
 #include "svg.h"
+#include "criaArquivo.h"
 
 int main(int argc, char *argv[]){
 
@@ -15,6 +16,7 @@ int main(int argc, char *argv[]){
     char *arqGeo = NULL;
     char *arqQry = NULL;
     char *dirSaida = NULL;
+    char *pathSaida = NULL;
 
     printf("\n\t---------------------------------------------------\n");
     for(int i = 1; argc > i; i++){    
@@ -84,15 +86,22 @@ int main(int argc, char *argv[]){
     }
     printf("\n\t---------------------------------------------------\n");
 
+
     lista = abreGeo(dirEntrada, arqGeo, lista);
     printf("\n\t---------------------------------------------------\n");
-   // lista = desenhaSvg(lista, arqGeo, dirSaida);
+    pathSaida = criaArqSaida(arqGeo, dirSaida, "geo", "svg");
+    lista = desenhaSvg(lista, pathSaida);
     printf("\n\t---------------------------------------------------\n");
-   // lista = imprimeLista(lista);
+    lista = imprimeLista(lista);
     printf("\n\t---------------------------------------------------\n");
     
     if(arqQry != NULL){
-        lista = abreQry(lista, dirEntrada, arqQry);
+        pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "txt");
+        lista = abreQry(lista, dirEntrada, arqQry, pathSaida);
+        printf("\n\t---------------------------------------------------\n");
+        pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "svg");
+        printf("\n\t---------------------------------------------------\n");
+        lista = desenhaSvg(lista, pathSaida); //Fazer condição pro svg do qry
     }
     printf("\n\t---------------------------------------------------\n");
 
@@ -103,6 +112,8 @@ int main(int argc, char *argv[]){
     free(arqGeo);
     free(arqQry);
     free(dirSaida);
+    free(pathSaida);
+    free(lista);
     
     printf("\n\t\tMemoria desalocada com sucesso!");
     printf("\n\t\tPROCESSO CONCLUIDO COM SUCESSO!\n");

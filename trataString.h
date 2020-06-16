@@ -3,5 +3,5 @@
 
 //Registros
 char *trataStringCaminho(char dirEntrada[], char arqGeo[]);
-char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoArqS);
+char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipoArqS[]);
 #endif

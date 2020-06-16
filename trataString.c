@@ -87,13 +87,13 @@ char *trataStringCaminho(char dirEntrada[], char arqGeo[]){
     return pathEntrada;
 }
 
-char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoArqS){
+char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipoArqS[]){
     char *nomeSvg = NULL;
     char *pathSaida = NULL;
 
     if (dirSaida[strlen(dirSaida) - 1] == '/' && arqGeo[0] == '/'){ // -o geoFiles/ -f /hino-01.geo
         //printf("\n%d", (strlen(dirSaida) + strlen(arqGeo)) - 1);
-        if(tipoArqE == 'g'){
+        if(strcmp(tipoArqE, "geo") == 0){
             pathSaida = (char *)malloc(((strlen(dirSaida) + strlen(arqGeo)) + 1) * sizeof(char));
         }
         else{
@@ -113,11 +113,11 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoAr
         //memcpy(nomeSvg, arqGeo + 1, strlen(arqGeo));
         pathSaida[strlen(pathSaida) - 1] = '\0';
         strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
-        if(tipoArqE == 'g'){
+        if (strcmp(tipoArqE, "geo") == 0){
             strcat(pathSaida, ".svg");
         }
         else{
-            if(tipoArqS == 's'){
+            if(strcmp(tipoArqS, "svg") == 0){
                 strcat(pathSaida, "-q.svg");
             }
             else{
@@ -126,7 +126,7 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoAr
         }
     }
     else if (dirSaida[strlen(dirSaida) - 1] != '/' && arqGeo[0] != '/' && arqGeo[0] != '.'){
-        if(tipoArqE == 'g'){
+        if (strcmp(tipoArqE, "geo") == 0){
             pathSaida = (char *)malloc(((strlen(dirSaida) + strlen(arqGeo)) + 3) * sizeof(char));
         }
         else{
@@ -150,11 +150,11 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoAr
         else{
             strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
         }
-        if(tipoArqE == 'g'){
+        if (strcmp(tipoArqE, "geo") == 0){
             strcat(pathSaida, ".svg");
         }
         else{
-            if(tipoArqS == 's'){
+            if (strcmp(tipoArqS, "svg") == 0){
                 strcat(pathSaida, "-q.svg");
             }
             else{
@@ -163,7 +163,7 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoAr
         }
     }
     else if ((dirSaida[strlen(dirSaida) - 1] != '/' && arqGeo[0] == '/') || (dirSaida[strlen(dirSaida) - 1] == '/' && arqGeo[0] != '/' && arqGeo[0] != '.')){
-        if(tipoArqE == 'g'){
+        if (strcmp(tipoArqE, "geo") == 0){
             pathSaida = (char *)malloc((strlen(dirSaida) + strlen(arqGeo) + 2) * sizeof(char));
         }
         else{
@@ -189,11 +189,11 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoAr
             }
             strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
         }
-        if(tipoArqE == 'g'){
+        if (strcmp(tipoArqE, "geo") == 0){
             strcat(pathSaida, ".svg");
         }
         else{
-            if(tipoArqS == 's'){
+            if (strcmp(tipoArqS, "svg") == 0){
                 strcat(pathSaida, "-q.svg");
             }
             else{
@@ -203,7 +203,7 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoAr
     }
     else if (dirSaida[strlen(dirSaida) - 1] == '/' && arqGeo[0] == '.'){
         //printf("%ld", strlen(arqGeo));
-        if(tipoArqE == 'g'){
+        if (strcmp(tipoArqE, "geo") == 0){
             pathSaida = (char *)malloc((strlen(dirSaida) + strlen(arqGeo)) * sizeof(char));
         }
         else{
@@ -228,11 +228,11 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoAr
             pathSaida[strlen(pathSaida) - 1] = '\0';
             strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
         }
-        if(tipoArqE == 'g'){
+        if (strcmp(tipoArqE, "geo") == 0){
             strcat(pathSaida, ".svg");
         }
         else{
-            if(tipoArqS == 's'){
+            if (strcmp(tipoArqS, "svg") == 0){
                 strcat(pathSaida, "-q.svg");
             }
             else{
@@ -241,7 +241,7 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoAr
         }
     }
     else if (dirSaida[strlen(dirSaida) - 1] != '/' && arqGeo[0] == '.'){
-        if(tipoArqE == 'g'){
+        if (strcmp(tipoArqE, "geo") == 0){
             pathSaida = (char *)malloc(((strlen(dirSaida) + strlen(arqGeo)) + 1) * sizeof(char));
         }
         else{
@@ -266,11 +266,11 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE, char tipoAr
         // }
         memcpy(nomeSvg, arqGeo + 1, strlen(arqGeo)); //aqui não poderia ser o arqGeo
         strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
-        if(tipoArqE == 'g'){
+        if (strcmp(tipoArqE, "geo") == 0){
             strcat(pathSaida, ".svg");
         }
         else{
-            if(tipoArqS == 's'){
+            if (strcmp(tipoArqS, "svg") == 0){
                 strcat(pathSaida, "-q.svg");
             }
             else{
