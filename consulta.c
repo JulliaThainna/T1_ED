@@ -100,48 +100,6 @@ No *comandoQry(FILE *qry, No *inicio, char pathSaida[]){
     return inicio;
 }
 
-bool ponto(No *inicio, int j, float x, float y, bool interno){
-    No *aux = NULL;
-    aux = buscaElemento(inicio, j);
-    if(aux == NULL){
-        printf("\n\tNao foi possivel encontrar o elemento! ID: %d \n", j);
-        return false;
-    }
-    if(aux->tipo == 'c'){
-        //distancia de x = aux->fig->crl.x - x
-        //distancia de y = aux->fig->crl.y - y
-        //d^2 = dX^2 + dY^2
-        //condição: d < r, d^2 < r^2
-        //ou seja, dx^2 + dy^2 < r^2
-        x = aux->fig->crl.x - x;
-        y = aux->fig->crl.y - y;
-        if(x*x + y*y < aux->fig->crl.r * aux->fig->crl.r){
-            interno = true;
-            printf("\nO ponto está dentro do circulo!");
-        }
-        else{
-            printf("\nO ponto está fora do círculo!");
-        }
-        
-    }
-
-    else if(aux->tipo == 'r'){
-        //x < px < x+w
-        //y < py < y+h
-        if((aux->fig->ret.x < x && x < aux->fig->ret.x + aux->fig->ret.w) && (aux->fig->ret.y < y && y < aux->fig->ret.y + aux->fig->ret.h)){
-            interno = true;
-            printf("\nO ponto esta dentro do retangulo!");
-        }
-        else{
-            printf("\n O ponto esta fora do retangulo");
-        }
-    }
-
-    else if(aux->tipo == 't'){
-        printf("\nNao e possivel verificar um ponto no tipo texto!");
-    }
-    return interno;
-}
 
 bool sobrepoe(No *inicio, int j, int k, bool dentro){
     /*
@@ -159,10 +117,12 @@ bool sobrepoe(No *inicio, int j, int k, bool dentro){
         printf("\nNao foi possivel encontrar o elemento. ID: %d!", k);
         return false;
     }
+
     if(auxJ->tipo == 'c' && auxK->tipo == 'c'){ //circulo e circulo
         float deltaX = auxJ->fig->crl.x - auxK->fig->crl.x;
         float deltaY = auxJ->fig->crl.y - auxK->fig->crl.y;
-        if (deltaX * deltaX + deltaY * deltaY < (auxJ->fig->crl.r + auxK->fig->crl.r) * (auxJ->fig->crl.r + auxK->fig->crl.r)){        
+        if (deltaX * deltaX + deltaY * deltaY < (auxJ->fig->crl.r + auxK->fig->crl.r) * 
+            (auxJ->fig->crl.r + auxK->fig->crl.r)){        
             dentro = true; 
             printf("\nOs circulos se sobrepoem!");
         }
@@ -170,6 +130,7 @@ bool sobrepoe(No *inicio, int j, int k, bool dentro){
             printf("\nOs circulos nao se sobrepoem!");
         }
     }
+
     /*
         x < px < x+w
         y < py < y+h
@@ -179,7 +140,6 @@ bool sobrepoe(No *inicio, int j, int k, bool dentro){
             }
         }
     */
-
     else if(auxJ->tipo == 'r' && auxK->tipo == 'r'){ //retangulo e retangulo
         //fixo
         float x = auxJ->fig->ret.x;
@@ -192,7 +152,6 @@ bool sobrepoe(No *inicio, int j, int k, bool dentro){
         float py = auxK->fig->ret.y;
         
         //x,y    x+w,y    x,y+h    x+w,y+h
-
         if(x < px && px < x + w){
             if(y < py && py < y + h){
                 dentro = true;
@@ -206,8 +165,7 @@ bool sobrepoe(No *inicio, int j, int k, bool dentro){
             }
         }
 
-        py += auxK->fig->ret.h;
-        //px = x+w     py = y+h
+        py += auxK->fig->ret.h; //px = x+w  py = y+h
         px = auxK->fig->ret.x;
         if (x < px && px < x + w){
             if (y < py && py < y + h){
@@ -215,8 +173,7 @@ bool sobrepoe(No *inicio, int j, int k, bool dentro){
             }
         }
 
-        //py = y+h  px = x
-        px += auxK->fig->ret.w;
+        px += auxK->fig->ret.w; //py = y+h  px = x
         if (x < px && px < x + w){
             if (y < py && py < y + h){
                 dentro = true;
@@ -231,7 +188,7 @@ bool sobrepoe(No *inicio, int j, int k, bool dentro){
         }
     }
 
-    else if((auxJ->tipo == 'c' && auxK->tipo == 'r') || (auxJ->tipo == 'r' && auxK->tipo == 'c')){
+    else if((auxJ->tipo == 'c' && auxK->tipo == 'r') || (auxJ->tipo == 'r' && auxK->tipo == 'c')){ //retangulo e circulo e vice-versa
         /*
             1 - Pegar círculo ok
             2 - Pegar retângulo ok
@@ -249,23 +206,66 @@ bool sobrepoe(No *inicio, int j, int k, bool dentro){
             crl = auxK;
             ret = auxJ;
         }
+
         /*NearestX = Max(RectX, Min(CircleX, RectX + RectWidth));
         NearestY = Max(RectY, Min(CircleY, RectY + RectHeight));*/
-    
         float nX = MAX(ret->fig->ret.x, MIN(crl->fig->crl.x, ret->fig->ret.x + ret->fig->ret.w));
         float nY = MAX(ret->fig->ret.y, MIN(crl->fig->crl.y, ret->fig->ret.y + ret->fig->ret.h));
         float deltaX = nX - crl->fig->crl.x;
         float deltaY = nY - crl->fig->crl.y;
         if(deltaX * deltaX + deltaY * deltaY < crl->fig->crl.r * crl->fig->crl.r){
             dentro = true;
-            printf("O circulo e o retangulo se sobrepoem!");
+            printf("\nO circulo e o retangulo se sobrepoem!");
         }  
         else{
-            printf("Não se sobrepoem");
+            printf("\nO circulo e o retangulo nao se sobrepoem!");
+        }
+    }
+    return dentro;
+}
+
+bool ponto(No *inicio, int j, float x, float y, bool interno){
+    No *aux = NULL;
+    aux = buscaElemento(inicio, j);
+    if (aux == NULL){
+        printf("\n\tNao foi possivel encontrar o elemento! ID: %d \n", j);
+        return false;
+    }
+    if (aux->tipo == 'c'){
+        //distancia de x = aux->fig->crl.x - x
+        //distancia de y = aux->fig->crl.y - y
+        //d^2 = dX^2 + dY^2
+        //condição: d < r, d^2 < r^2
+        //ou seja, dx^2 + dy^2 < r^2
+        x = aux->fig->crl.x - x;
+        y = aux->fig->crl.y - y;
+        if (x * x + y * y < aux->fig->crl.r * aux->fig->crl.r){
+            interno = true;
+            printf("\nO ponto está dentro do circulo!");
+        }
+        else{
+            printf("\nO ponto está fora do círculo!");
         }
     }
 
-    return dentro;
+    else if (aux->tipo == 'r'){
+        //x < px < x+w
+        //y < py < y+h
+        if ((aux->fig->ret.x < x && x < aux->fig->ret.x + aux->fig->ret.w) && 
+            (aux->fig->ret.y < y && y < aux->fig->ret.y + aux->fig->ret.h)){
+            interno = true;
+            printf("\nO ponto esta dentro do retangulo!");
+        }
+        else{
+            printf("\nO ponto esta fora do retangulo!");
+        }
+    }
+
+    else if (aux->tipo == 't'){
+        printf("\nNao e possivel verificar um ponto no tipo texto!");
+        
+    }
+    return interno;
 }
 
 void mudaCorj(No *inicio, int j, char corb[], char corp[]){
