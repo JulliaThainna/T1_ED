@@ -97,7 +97,7 @@ int main(int argc, char *argv[]){
     
     if(arqQry != NULL){
         pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "txt");
-        lista = abreQry(lista, dirEntrada, arqQry);
+        lista = abreQry(lista, dirEntrada, arqQry, pathSaida);
         printf("\n\t---------------------------------------------------\n");
         pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "svg"); 
         printf("\n\t---------------------------------------------------\n");

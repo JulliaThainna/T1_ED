@@ -3,8 +3,8 @@
 
 #include "lista.h"
 
-void escreveTexto(No *inicio, FILE *qry, char comando[], char corb[], char corp[], int j, int k, float x, float y, int retorno);
+No *escreveTexto(No *inicio, char pathSaida[], char comando[], char corb[], char corp[], int j, int k, float x, float y, int retorno);
 
-No *retornaInfo(No *inicio, FILE *qry, char comando[], int j, int k);
+    No *retornaInfo(No * inicio, FILE * qry, char comando[], int j, int k);
 
 #endif

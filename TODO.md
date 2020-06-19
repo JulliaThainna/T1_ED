@@ -2,11 +2,14 @@
 
 - [ ] Terminar a função escreveTxt()
     - [X] Mudar a variável bool retorno pra int retorno
-- [ ] Terminar a função retornaInfo()
-    - [ ] Terminar os comandos pnt, pnt*, delf*
+- [X] Terminar a função retornaInfo()
+    - [X] Terminar os comandos pnt, pnt*, delf*
 - [ ] Terminar i? 
 - [ ] Terminar o?
 - [ ] Fazer a condição do .svg pro .qry
 - [ ] Arrumar a viewbox da função desenhaSvg()
 - [ ] Tentar refatorar o código (Principalmente do arquivo trataString)
 - [ ] Verificar bugs e possíveis furos de lógica
+
+eu poderia utilizar o busca elemento no deletaElemento()?
+eu poderia chamar a funcao mudaCorJ pra mudaCorJK?

@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include "lista.h"
 
-No *abreQry(No *inicio, char dirEntrada[], char arqQry[]);
-No *comandoQry(FILE *qry, No *inicio);
+No *abreQry(No *inicio, char dirEntrada[], char arqQry[], char pathSaida[]);
+No *comandoQry(FILE *qry, char pathSaida[], No *inicio);
 int ponto(No *inicio, int j, float x, float y, int interno);
 int sobrepoe(No *inicio, int j, int k, int dentro);
 int mudaCorj(No *inicio, int j, char corb[], char corp[]);

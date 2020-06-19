@@ -11,7 +11,7 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y)) 
 
-No *abreQry(No *inicio, char dirEntrada[], char arqQry[]){
+No *abreQry(No *inicio, char dirEntrada[], char arqQry[], char pathSaida[]){
     FILE *qry = NULL;
     char *pathEntrada = NULL;
 
@@ -35,12 +35,13 @@ No *abreQry(No *inicio, char dirEntrada[], char arqQry[]){
     }
     printf("\n\t Arquivo .qry aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
-    inicio = comandoQry(qry, inicio);
+    inicio = comandoQry(qry, pathSaida, inicio);
+    fclose(qry);
     free(pathEntrada);
     return inicio;
 }
 
-No *comandoQry(FILE *qry, No *inicio){
+No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
     int retorno;
     int j = 0, k = 0;
     float x, y;
@@ -55,7 +56,7 @@ No *comandoQry(FILE *qry, No *inicio){
         if(strcmp(comando, "o?") == 0){ 
             fscanf(qry, "%d %d", &j, &k);
             retorno = sobrepoe(inicio, j, k, retorno);
-            escreveTexto(inicio, qry, comando, corb, corp, j, k, x, y, retorno);
+            escreveTexto(inicio, pathSaida, comando, corb, corp, j, k, x, y, retorno);
 
             if(retorno == 1){
                 //adicionaBcheia(inicio, j, k);
@@ -70,7 +71,7 @@ No *comandoQry(FILE *qry, No *inicio){
         else if(strcmp(comando, "i?") == 0){
             fscanf(qry, "%d %f %f", &j, &x, &y);
             retorno = ponto(inicio, j, x, y, retorno);
-            escreveTexto(inicio, qry, comando, corb, corp, j, k, x, y, retorno);
+            escreveTexto(inicio, pathSaida, comando, corb, corp, j, k, x, y, retorno);
             if(retorno == 1){
                 //adicionaPonto(inicio, j, x, y);
             }
@@ -84,30 +85,29 @@ No *comandoQry(FILE *qry, No *inicio){
         else if(strcmp(comando, "pnt") == 0){
             fscanf(qry, "%d %s %s", &j, corb, corp);
             retorno = mudaCorj(inicio, j, corb, corp);
-            escreveTexto(inicio, qry, comando, corb, corp, j, k, x, y, retorno);
+            escreveTexto(inicio, pathSaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "pnt*") == 0){
             fscanf(qry, "%d %d %s %s", &j, &k, corb, corp);
             retorno = mudaCorjk(inicio, j, k, corb, corp);
-            escreveTexto(inicio, qry, comando, corb, corp, j, k, x, y, retorno);
+            escreveTexto(inicio, pathSaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "delf") == 0){
             fscanf(qry, "%d", &j);
             deletaElementoj(inicio, j);
-            escreveTexto(inicio, qry, comando, corb, corp, j, k, x, y, retorno);
+            escreveTexto(inicio, pathSaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "delf*") == 0){
             fscanf(qry, "%d %d", &j, &k);
             deletaElementojk(inicio, j, k);
-            escreveTexto(inicio, qry, comando, corb, corp, j, k, x, y, retorno);
+            escreveTexto(inicio, pathSaida, comando, corb, corp, j, k, x, y, retorno);
         }
     }
-    fclose(qry);
     return inicio;
 }
 
 
-int sobrepoe(No *inicio, int j, int k, int dentro){
+int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
     /*
     -buscar formas
     -identificar os tipos
@@ -235,7 +235,7 @@ int sobrepoe(No *inicio, int j, int k, int dentro){
     return dentro;
 }
 
-int ponto(No *inicio, int j, float x, float y, int interno){
+int ponto(No *inicio, int j, float x, float y, int interno){ //i?
     No *aux = NULL;
     aux = buscaElemento(inicio, j);
     if (aux == NULL){
@@ -255,7 +255,7 @@ int ponto(No *inicio, int j, float x, float y, int interno){
             printf("\nO ponto está dentro do circulo!");
         }
         else{
-            printf("\nO ponto está fora do círculo!");
+            printf("\nO ponto está fora do circulo!");
         }
     }
 
@@ -280,7 +280,7 @@ int ponto(No *inicio, int j, float x, float y, int interno){
     return interno;
 }
 
-int mudaCorj(No *inicio, int j, char corb[], char corp[]){
+int mudaCorj(No *inicio, int j, char corb[], char corp[]){ //pnt
     No *aux = buscaElemento(inicio, j);
     if (aux == NULL){
         printf("\nNao foi possivel encontrar o elemento. ID: %d!", j);
@@ -300,7 +300,7 @@ int mudaCorj(No *inicio, int j, char corb[], char corp[]){
     return 1;
 }
 
-int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){
+int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
     No *auxJ = buscaElemento(inicio, j);
     if (auxJ == NULL){
         printf("\nNao foi possivel encontrar o elemento. ID: %d!", j);
@@ -320,22 +320,7 @@ int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){
         menor = auxJ->id;
     }
     for(int i = menor; i < maior; i++){
-        No *auxI = buscaElemento(inicio, i);
-        if(auxI == NULL){
-            printf("\nNao foi possivel encontrar o elemento. ID: %d!", i);
-        }
-        if (auxI->tipo == 'c'){
-            strcpy(auxJ->fig->crl.corb, corb);
-            strcpy(auxJ->fig->crl.corp, corp);
-        }
-        else if (auxI->tipo == 'r'){
-            strcpy(auxJ->fig->ret.corb, corb);
-            strcpy(auxJ->fig->ret.corp, corp);
-        }
-        else if (auxI->tipo == 't'){
-            strcpy(auxJ->fig->texto.corb, corb);
-            strcpy(auxJ->fig->texto.corp, corp);
-        }
+        mudaCorj(inicio, i, corb, corp);
     }
     return 1;
 }
