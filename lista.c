@@ -115,7 +115,7 @@ No *deletaElementoj(No *inicio, int j){
         }
         free(aux->fig);
         free(aux);
-        printf("\n\tElemento deletado com sucesso! ID: %d \n", j);
+        printf("\n\tElemento J deletado com sucesso! ID: %d \n", j);
         return inicio;
     }
 
@@ -123,7 +123,7 @@ No *deletaElementoj(No *inicio, int j){
         ant = aux;
         aux = aux->prox;
         if(aux->prox == NULL){
-            printf("\n\tNao foi possivel encontrar o elemento! ID: %d \n", j);
+            printf("\n\tNao foi possivel encontrar o elemento J! ID: %d \n", j);
             return inicio;
         }
     }
@@ -182,13 +182,13 @@ Enquanto o auxiliar for diferente de NULL
 No *deletaElementojk(No *inicio, int j, int k){
     No *auxJ = buscaElemento(inicio, j);
     if (auxJ == NULL){
-        printf("\nNao foi possivel encontrar o elemento. ID: %d!", j);
+        printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
         return NULL;
 
     }
     No *auxK = buscaElemento(inicio, k);
     if (auxK == NULL){
-        printf("\nNao foi possivel encontrar o elemento. ID: %d!", k);
+        printf("\n\tNao foi possivel encontrar o elemento K. ID: %d!", k);
         return NULL;
     }
 

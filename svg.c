@@ -14,7 +14,7 @@ No *desenhaSvg(No *inicio, char pathSaida[]){
 
     arqSvg = fopen(pathSaida, "w");
     if(arqSvg == NULL){
-        printf("\nErro inesperado! Nao foi possivel criar arquivo .svg.");
+        printf("\n\tErro inesperado! Nao foi possivel criar arquivo .svg.");
         exit(1);
     }
 

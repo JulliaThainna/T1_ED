@@ -97,13 +97,13 @@ int main(int argc, char *argv[]){
     printf("\n\t---------------------------------------------------\n");
     
     if(arqQry != NULL){
-        pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "txt"); 
+        pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "txt");
+        printf("\n\t---------------------------------------------------\n");
         lista = abreQry(lista, dirEntrada, arqQry, pathSaida);
         free(pathSaida);
         printf("\n\t---------------------------------------------------\n");
         pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "svg"); 
-        printf("\n\t---------------------------------------------------\n");
-        lista = desenhaSvg(lista, pathSaida); //Fazer condição pro svg do qry
+        //lista = desenhaSvg(lista, pathSaida); //Fazer condição pro svg do qry
     }
     printf("\n\t---------------------------------------------------\n");
 

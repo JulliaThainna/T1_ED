@@ -50,12 +50,14 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
 
     FILE *qrySaida = NULL;
     printf("\n\t\tABRINDO ARQUIVO .txt . . . ");
-    printf("\n\t > Arquivo .txt: %s", pathSaida);
+    printf("\n\t\t > Arquivo .txt: %s", pathSaida);
     qrySaida = fopen(pathSaida, "a+");
     if (!qrySaida){
         printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
         exit(1);
     }
+    printf("\n\tArquivo .txt aberto com sucesso!");
+    printf("\n\t---------------------------------------------------\n");
 
     while(1){
         retorno = 0;
@@ -128,11 +130,11 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
     */
     No *auxJ = buscaElemento(inicio, j); //fixo (x e y , x+w e y+h)
     if (auxJ == NULL){
-        printf("\nNao foi possivel encontrar o elemento. ID: %d!", j);
+        printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
     }
     No *auxK = buscaElemento(inicio, k); //móvel (px e py)
     if(auxK == NULL){
-        printf("\nNao foi possivel encontrar o elemento. ID: %d!", k);
+        printf("\n\tNao foi possivel encontrar o elemento K. ID: %d!", k);
     }
 
     if(auxJ->tipo == 'c' && auxK->tipo == 'c'){ //circulo e circulo
@@ -141,10 +143,10 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
         if (deltaX * deltaX + deltaY * deltaY < (auxJ->fig->crl.r + auxK->fig->crl.r) * 
             (auxJ->fig->crl.r + auxK->fig->crl.r)){        
             dentro = 1; 
-            printf("\nOs circulos se sobrepoem!");
+            printf("\n\tOs circulos se sobrepoem!");
         }
         else{
-            printf("\nOs circulos nao se sobrepoem!");
+            printf("\n\tOs circulos nao se sobrepoem!");
         }
     }
 
@@ -198,10 +200,10 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
         }
 
         if(dentro == 1){
-            printf("\nOs retangulos se sobrepoem!");
+            printf("\n\tOs retangulos se sobrepoem!");
         }
         else{
-            printf("\nOs retangulos nao se sobrepoem!");
+            printf("\n\tOs retangulos nao se sobrepoem!");
         }
     }
 
@@ -232,17 +234,18 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
         float deltaY = nY - crl->fig->crl.y;
         if(deltaX * deltaX + deltaY * deltaY < crl->fig->crl.r * crl->fig->crl.r){
             dentro = 1;
-            printf("\nO circulo e o retangulo se sobrepoem!");
+            printf("\n\tO circulo e o retangulo se sobrepoem!");
         }  
         else{
-            printf("\nO circulo e o retangulo nao se sobrepoem!");
+            printf("\n\tO circulo e o retangulo nao se sobrepoem!");
         }
     }
 
     else if (auxJ->tipo == 't' || auxK->tipo == 't'){ //texto
-        printf("\nNao e possivel verificar sobreposições no tipo texto!");
+        printf("\n\tNao e possivel verificar sobreposições no tipo texto!");
         return -1;
     }
+    
     return dentro;
 }
 
@@ -250,9 +253,10 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
     No *aux = NULL;
     aux = buscaElemento(inicio, j);
     if (aux == NULL){
-        printf("\n\tNao foi possivel encontrar o elemento! ID: %d \n", j);
+        printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
         return -2;
     }
+
     if (aux->tipo == 'c'){ //circulo
         //distancia de x = aux->fig->crl.x - x
         //distancia de y = aux->fig->crl.y - y
@@ -263,10 +267,10 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         y = aux->fig->crl.y - y;
         if (x * x + y * y < aux->fig->crl.r * aux->fig->crl.r){
             interno = 1;
-            printf("\nO ponto está dentro do circulo!");
+            printf("\n\tO ponto está dentro do circulo!");
         }
         else{
-            printf("\nO ponto está fora do circulo!");
+            printf("\n\tO ponto está fora do circulo!");
         }
     }
 
@@ -276,50 +280,57 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         if ((aux->fig->ret.x < x && x < aux->fig->ret.x + aux->fig->ret.w) && 
             (aux->fig->ret.y < y && y < aux->fig->ret.y + aux->fig->ret.h)){
             interno = 1;
-            printf("\nO ponto esta dentro do retangulo!");
+            printf("\n\tO ponto esta dentro do retangulo!");
         }
         else{
-            printf("\nO ponto esta fora do retangulo!");
+            printf("\n\tO ponto esta fora do retangulo!");
         }
     }
 
     else if (aux->tipo == 't'){ //texto
         interno = -1;
-        printf("\nNao e possivel verificar um ponto no tipo texto!");
+        printf("\n\tNao e possivel verificar um ponto no tipo texto!");
         
     }
+    
     return interno;
 }
 
 int mudaCorj(No *inicio, int j, char corb[], char corp[]){ //pnt
     No *aux = buscaElemento(inicio, j);
     if (aux == NULL){
-        printf("\nNao foi possivel encontrar o elemento. ID: %d!", j);
+        printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
+        return -2;
     }
 
     if(aux->tipo == 'c'){
         strcpy(aux->fig->crl.corb, corb);
         strcpy(aux->fig->crl.corp, corp);
     }
+
     else if(aux->tipo == 'r'){
         strcpy(aux->fig->ret.corb, corb);
         strcpy(aux->fig->ret.corp, corp);
     }
+
     else if(aux->tipo == 't'){
         strcpy(aux->fig->texto.corb, corb);
         strcpy(aux->fig->texto.corp, corp);
     }
+    
     return 1;
 }
 
 int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
     No *auxJ = buscaElemento(inicio, j);
     if (auxJ == NULL){
-        printf("\nNao foi possivel encontrar o elemento. ID: %d!", j);
+        printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
+        return -2;
     }
     No *auxK = buscaElemento(inicio, k);
     if (auxK == NULL){
-        printf("\nNao foi possivel encontrar o elemento. ID: %d!", k);
+        return -2;
+        printf("\n\tNao foi possivel encontrar o elemento K. ID: %d!", k);
     }
 
     int menor;
@@ -335,5 +346,6 @@ int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
     for(int i = menor; i < maior; i++){
         mudaCorj(inicio, i, corb, corp);
     }
+
     return 1;
 }

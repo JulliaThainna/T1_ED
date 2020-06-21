@@ -10,7 +10,7 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
-No *escreveTexto(No *inicio, FILE *qrySaida, char comando[], char corb[], char corp[], int j, int k, float x, float y, int retorno){
+No *escreveTexto(No *inicio, FILE *qrySaida, char comando[], char corb[], char corp[], int j, int k, float x, float y, int retorno){ 
     char frase[50];
     if(frase == NULL){
         printf("\nErro inesperado! Memoria insuficiente para escrever o texto do arquivo .txt.");
@@ -103,12 +103,14 @@ No *retornaInfo(No *inicio, FILE *qrySaida, char comando[], int j, int k){
     if(strcmp(comando, "o?") == 0){
         No *auxJ = buscaElemento(inicio, j);
         if (auxJ == NULL)     {
-            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", j);
+            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento J. ID: %d!\n", j);
+            fprintf(qrySaida, "\n\t---------------------------------------------------\n");
             return NULL;
         }               
         No *auxK = buscaElemento(inicio, k);
         if (auxK == NULL){
-            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", k);
+            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento K. ID: %d!\n", k);
+            fprintf(qrySaida, "\n\t---------------------------------------------------\n");
             return NULL;
         }
 
@@ -131,7 +133,8 @@ No *retornaInfo(No *inicio, FILE *qrySaida, char comando[], int j, int k){
     else if(strcmp(comando, "i?") == 0){
         No *auxJ = buscaElemento(inicio, j);
         if(auxJ == NULL){
-            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", j);
+            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento J. ID: %d!\n", j);
+            fprintf(qrySaida, "\n\t---------------------------------------------------\n");
             return NULL;
         }
 
@@ -147,7 +150,8 @@ No *retornaInfo(No *inicio, FILE *qrySaida, char comando[], int j, int k){
     else if(strcmp(comando, "pnt") == 0){
         No *auxJ = buscaElemento(inicio, j);
         if (auxJ == NULL){
-            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", j);
+            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento J. ID: %d!\n", j);
+            fprintf(qrySaida, "\n\t---------------------------------------------------\n");
             return NULL;
         }
 
@@ -169,32 +173,35 @@ No *retornaInfo(No *inicio, FILE *qrySaida, char comando[], int j, int k){
     else if(strcmp(comando, "pnt*") == 0){
         No *auxJ = buscaElemento(inicio, j);
         if (auxJ == NULL){
-            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", j);
+            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento J. ID: %d!\n", j);
+            fprintf(qrySaida, "\n\t---------------------------------------------------\n");
             return NULL;
         }
         No *auxK = buscaElemento(inicio, k);
         if (auxK == NULL){
-            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", k);
+            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento K. ID: %d!\n", k);
+            fprintf(qrySaida, "\n\t---------------------------------------------------\n");
             return NULL;
         }
 
-        for(int i = MIN(j, k); i < MAX(j, k); i++){
+        for(int i = MIN(j, k); i <= MAX(j, k); i++){
             No *auxI = buscaElemento(inicio, i);
             if (auxI == NULL){
-                fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", i);
+                fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento I. ID: %d!\n", i);
+                fprintf(qrySaida, "\n\t---------------------------------------------------\n");
                 return NULL;
             }
-            if (auxJ->tipo == 'c'){
-                strcpy(tipoJ, "CIRCULO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   X original: %f   Y original: %f\n", tipoJ, auxJ->fig->crl.x, auxJ->fig->crl.y);
+            if (auxI->tipo == 'c'){
+                strcpy(tipoI, "CIRCULO");
+                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   X original: %f   Y original: %f\n", tipoI, auxI->id, auxI->fig->crl.x, auxI->fig->crl.y);
             }
-            else if (auxJ->tipo == 'r'){
-                strcpy(tipoJ, "RETANGULO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   X original: %f   Y original: %f\n", tipoJ, auxJ->fig->ret.x, auxJ->fig->ret.y);
+            else if (auxI->tipo == 'r'){
+                strcpy(tipoI, "RETANGULO");
+                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   X original: %f   Y original: %f\n", tipoI, auxI->id, auxI->fig->ret.x, auxI->fig->ret.y);
             }
-            else if (auxJ->tipo == 't'){
-                strcpy(tipoJ, "TEXTO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   X original: %f   Y original: %f\n", tipoJ, auxJ->fig->texto.x, auxJ->fig->texto.y);
+            else if (auxI->tipo == 't'){
+                strcpy(tipoI, "TEXTO");
+                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   X original: %f   Y original: %f\n", tipoI, auxI->id, auxI->fig->texto.x, auxI->fig->texto.y);
             }
         }
     }
@@ -224,12 +231,14 @@ No *retornaInfo(No *inicio, FILE *qrySaida, char comando[], int j, int k){
     else if(strcmp(comando, "delf*") == 0){
         No *auxJ = buscaElemento(inicio, j);
         if (auxJ == NULL){ 
-            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", j);
+            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento J. ID: %d!\n", j);
+            fprintf(qrySaida, "\n\t---------------------------------------------------\n");
             return NULL;
         }
         No *auxK = buscaElemento(inicio, k);
         if (auxK == NULL){
-            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", k);
+            fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento K. ID: %d!\n", k);
+            fprintf(qrySaida, "\n\t---------------------------------------------------\n");
             return NULL;
         }
 
@@ -241,15 +250,15 @@ No *retornaInfo(No *inicio, FILE *qrySaida, char comando[], int j, int k){
             }
             if (auxI->tipo == 'c'){
                 strcpy(tipoI, "CIRCULO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   Raio: %f   X: %f   Y: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoJ, auxI->fig->crl.r, auxI->fig->crl.x, auxI->fig->crl.y, auxI->fig->crl.corb, auxI->fig->crl.corp);
+                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   Raio: %f   X: %f   Y: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoJ, auxI->id, auxI->fig->crl.r, auxI->fig->crl.x, auxI->fig->crl.y, auxI->fig->crl.corb, auxI->fig->crl.corp);
             }
             else if (auxI->tipo == 'r'){
                 strcpy(tipoI, "RETANGULO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   X: %f   Y: %f   ALTURA: %f   LARGURA: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoI, auxI->fig->ret.x, auxI->fig->ret.y, auxI->fig->ret.h, auxI->fig->ret.w, auxI->fig->ret.corb, auxI->fig->ret.corp);
+                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   X: %f   Y: %f   ALTURA: %f   LARGURA: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoI, auxI->id, auxI->fig->ret.x, auxI->fig->ret.y, auxI->fig->ret.h, auxI->fig->ret.w, auxI->fig->ret.corb, auxI->fig->ret.corp);
             }
             else if (auxI->tipo == 't'){
                 strcpy(tipoI, "TEXTO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   TEXTO: %s   X: %f   Y: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoI, auxI->fig->texto.texto, auxI->fig->texto.x, auxI->fig->texto.y, auxI->fig->texto.corb, auxI->fig->texto.corp);
+                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   TEXTO: %s   X: %f   Y: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoI, auxI->id, auxI->fig->texto.texto, auxI->fig->texto.x, auxI->fig->texto.y, auxI->fig->texto.corb, auxI->fig->texto.corp);
             }
         }
     }
