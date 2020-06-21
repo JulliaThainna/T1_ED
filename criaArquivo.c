@@ -18,5 +18,6 @@ char *criaArqSaida(char arqGeo[], char dirSaida[], char tipoArqE[], char tipoArq
     printf("\n\tArquivo .%s criado com sucesso!", tipoArqS);
     printf("\n\tEXPORTANDO ELEMENTOS PARA O ARQUIVO .%s . . . ", tipoArqS);
     fclose(arq);
+
     return pathSaida;
 }

@@ -1,6 +1,6 @@
 # Trabalho 1 de Estrutura de Dados
 
-- [ ] Terminar a função escreveTxt()
+- [X] Terminar a função escreveTxt()
     - [X] Mudar a variável bool retorno pra int retorno
 - [X] Terminar a função retornaInfo()
     - [X] Terminar os comandos pnt, pnt*, delf*

@@ -49,13 +49,11 @@ No *buscaElemento(No *inicio, int id){
     //int iguais = 0;
     while (aux != NULL){
         if (id == aux->id){
-            printf("\n\tElemento encontrado com sucesso! ID: %d \n", id);
             return aux;
         }
         aux = aux->prox;
     }
 
-    printf("\n\tNao foi possivel encontrar o elemento! ID: %d \n", id);
     return NULL;
 }
 
@@ -117,23 +115,31 @@ No *deletaElementoj(No *inicio, int j){
         }
         free(aux->fig);
         free(aux);
+        printf("\n\tElemento deletado com sucesso! ID: %d \n", j);
         return inicio;
     }
-    while (aux != NULL && aux->prox->id != j){
+
+    while (aux != NULL && aux->id != j){
+        ant = aux;
         aux = aux->prox;
+        if(aux->prox == NULL){
+            printf("\n\tNao foi possivel encontrar o elemento! ID: %d \n", j);
+            return inicio;
+        }
     }
+
     if (aux == NULL){
-        printf("\nElemento não existe ou a lista não foi iniciada");
+        printf("\n\tLista não foi iniciada");
         return inicio;
     }
-    ant = aux;
-    aux = aux->prox;
+
     ant->prox = aux->prox;
     if (aux->tipo == 't'){
         free(aux->fig->texto.texto);
     }
     free(aux->fig);
     free(aux);
+    printf("\n\tElemento deletado com sucesso! ID: %d \n", j);
     return inicio;
 }
 
@@ -177,10 +183,13 @@ No *deletaElementojk(No *inicio, int j, int k){
     No *auxJ = buscaElemento(inicio, j);
     if (auxJ == NULL){
         printf("\nNao foi possivel encontrar o elemento. ID: %d!", j);
+        return NULL;
+
     }
     No *auxK = buscaElemento(inicio, k);
     if (auxK == NULL){
         printf("\nNao foi possivel encontrar o elemento. ID: %d!", k);
+        return NULL;
     }
 
     for(int i = MIN(j,k); i < MAX(j,k); i++){

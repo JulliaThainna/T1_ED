@@ -91,30 +91,30 @@ int main(int argc, char *argv[]){
     printf("\n\t---------------------------------------------------\n");
     pathSaida = criaArqSaida(arqGeo, dirSaida, "geo", "svg");
     lista = desenhaSvg(lista, pathSaida);
+    free(pathSaida);
     printf("\n\t---------------------------------------------------\n");
     lista = imprimeLista(lista);
     printf("\n\t---------------------------------------------------\n");
     
     if(arqQry != NULL){
-        pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "txt");
+        pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "txt"); 
         lista = abreQry(lista, dirEntrada, arqQry, pathSaida);
+        free(pathSaida);
         printf("\n\t---------------------------------------------------\n");
         pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "svg"); 
         printf("\n\t---------------------------------------------------\n");
-        //lista = desenhaSvg(lista, pathSaida); //Fazer condição pro svg do qry
+        lista = desenhaSvg(lista, pathSaida); //Fazer condição pro svg do qry
     }
     printf("\n\t---------------------------------------------------\n");
 
     //Libera o espaço alocado para as variáveis
     lista = deletaLista(lista);
-    free(lista);
     free(dirEntrada);
     free(arqGeo);
     free(arqQry);
     free(dirSaida);
     free(pathSaida);
-    free(lista);
-    
+
     printf("\n\t\tMemoria desalocada com sucesso!");
     printf("\n\t\tPROCESSO CONCLUIDO COM SUCESSO!\n");
     return 0;

@@ -31,8 +31,12 @@ No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
     }
     printf("\n\t Arquivo .geo aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
+
     inicio = comandoGeo(geo, inicio);
+
+    fclose(geo);
     free(pathEntrada);
+
     return inicio;
 }
 
@@ -83,7 +87,7 @@ No *comandoGeo(FILE *geo, No *inicio){
             buffer = getc(geo);
             texto = (char *)malloc(sizeof(char) * (buffer_size + 1));
             if(texto == NULL){
-                printf("\nErro inesperado! Memoria insuficiente para salvar caracteres do texto.");
+                printf("\nErro inesperado! Memoria insuficiente para salvar o texto do elemento texto.");
                 exit(1);
             }
             fscanf(geo, "%[^\n]s", texto);
@@ -94,7 +98,7 @@ No *comandoGeo(FILE *geo, No *inicio){
         }
         i++;
     }
-    fclose(geo);
+
     printf("\n\tLeitura do arquivo .geo finalizada com sucesso!");
     return inicio;
 }
