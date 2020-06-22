@@ -20,16 +20,16 @@ No *escreveTexto(No *inicio, FILE *qrySaida, char comando[], char corb[], char c
     //-2 se nao existe
     fprintf(qrySaida, "\tCOMANDO: %s    |   ", comando);
     if (strcmp(comando, "o?") == 0){
-        fprintf(qrySaida, "\n\tPARAMETROS: J->%d  K->%d\n", j, k);
+        fprintf(qrySaida, "PARAMETROS: J->%d  K->%d\n", j, k);
         inicio = retornaInfo(inicio, qrySaida, comando, j, k);
         if (inicio == NULL){
             return NULL;
         }
         if (retorno == 1){
-            strcpy(frase, "se sobrepoem!");
+            strcpy(frase, "Se sobrepoem!");
         }
         else if (retorno == 0){
-            strcpy(frase, "nao se sobrepoem!");
+            strcpy(frase, "Nao se sobrepoem!");
         }
         else if (retorno == -1){
             strcpy(frase, "Impossivel verificar sobreposicao em tipo texto!");
@@ -39,7 +39,7 @@ No *escreveTexto(No *inicio, FILE *qrySaida, char comando[], char corb[], char c
     }
 
     else if (strcmp(comando, "i?") == 0){
-        fprintf(qrySaida, "\n\tPARAMETROS: J->%d     X->%f     Y->%f\n", j, x, y);
+        fprintf(qrySaida, "PARAMETROS: J->%d     X->%f     Y->%f\n", j, x, y);
         inicio = retornaInfo(inicio, qrySaida, comando, j, k);
         if(inicio == NULL){
             return NULL;
@@ -193,15 +193,15 @@ No *retornaInfo(No *inicio, FILE *qrySaida, char comando[], int j, int k){
             }
             if (auxI->tipo == 'c'){
                 strcpy(tipoI, "CIRCULO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   X original: %f   Y original: %f\n", tipoI, auxI->id, auxI->fig->crl.x, auxI->fig->crl.y);
+                fprintf(qrySaida, "\n\tI-> FORMA: %s   ID: %d   X original: %f   Y original: %f\n", tipoI, auxI->id, auxI->fig->crl.x, auxI->fig->crl.y);
             }
             else if (auxI->tipo == 'r'){
                 strcpy(tipoI, "RETANGULO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   X original: %f   Y original: %f\n", tipoI, auxI->id, auxI->fig->ret.x, auxI->fig->ret.y);
+                fprintf(qrySaida, "\n\tI-> FORMA: %s   ID: %d   X original: %f   Y original: %f\n", tipoI, auxI->id, auxI->fig->ret.x, auxI->fig->ret.y);
             }
             else if (auxI->tipo == 't'){
                 strcpy(tipoI, "TEXTO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   X original: %f   Y original: %f\n", tipoI, auxI->id, auxI->fig->texto.x, auxI->fig->texto.y);
+                fprintf(qrySaida, "\n\tI-> FORMA: %s   ID: %d   X original: %f   Y original: %f\n", tipoI, auxI->id, auxI->fig->texto.x, auxI->fig->texto.y);
             }
         }
     }
@@ -242,7 +242,7 @@ No *retornaInfo(No *inicio, FILE *qrySaida, char comando[], int j, int k){
             return NULL;
         }
 
-        for (int i = MIN(j, k); i < MAX(j, k); i++){
+        for (int i = MIN(j, k); i <= MAX(j, k); i++){
             No *auxI = buscaElemento(inicio, i);
             if (auxI == NULL){
                 fprintf(qrySaida, "\n\tNao foi possivel encontrar o elemento. ID: %d!", i);
@@ -250,15 +250,15 @@ No *retornaInfo(No *inicio, FILE *qrySaida, char comando[], int j, int k){
             }
             if (auxI->tipo == 'c'){
                 strcpy(tipoI, "CIRCULO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   Raio: %f   X: %f   Y: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoJ, auxI->id, auxI->fig->crl.r, auxI->fig->crl.x, auxI->fig->crl.y, auxI->fig->crl.corb, auxI->fig->crl.corp);
+                fprintf(qrySaida, "\n\tI-> FORMA: %s   ID: %d   Raio: %f   X: %f   Y: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoI, auxI->id, auxI->fig->crl.r, auxI->fig->crl.x, auxI->fig->crl.y, auxI->fig->crl.corb, auxI->fig->crl.corp);
             }
             else if (auxI->tipo == 'r'){
                 strcpy(tipoI, "RETANGULO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   X: %f   Y: %f   ALTURA: %f   LARGURA: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoI, auxI->id, auxI->fig->ret.x, auxI->fig->ret.y, auxI->fig->ret.h, auxI->fig->ret.w, auxI->fig->ret.corb, auxI->fig->ret.corp);
+                fprintf(qrySaida, "\n\tI-> FORMA: %s   ID: %d   X: %f   Y: %f   ALTURA: %f   LARGURA: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoI, auxI->id, auxI->fig->ret.x, auxI->fig->ret.y, auxI->fig->ret.h, auxI->fig->ret.w, auxI->fig->ret.corb, auxI->fig->ret.corp);
             }
             else if (auxI->tipo == 't'){
                 strcpy(tipoI, "TEXTO");
-                fprintf(qrySaida, "\n\tJ-> FORMA: %s   ID: %d   TEXTO: %s   X: %f   Y: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoI, auxI->id, auxI->fig->texto.texto, auxI->fig->texto.x, auxI->fig->texto.y, auxI->fig->texto.corb, auxI->fig->texto.corp);
+                fprintf(qrySaida, "\n\tI-> FORMA: %s   ID: %d   TEXTO: %s   X: %f   Y: %f   Cor da Borda: %s   Cor de Preenchimento: %s", tipoI, auxI->id, auxI->fig->texto.texto, auxI->fig->texto.x, auxI->fig->texto.y, auxI->fig->texto.corb, auxI->fig->texto.corp);
             }
         }
     }

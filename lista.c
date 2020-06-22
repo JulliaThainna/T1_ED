@@ -192,7 +192,7 @@ No *deletaElementojk(No *inicio, int j, int k){
         return NULL;
     }
 
-    for(int i = MIN(j,k); i < MAX(j,k); i++){
+    for(int i = MIN(j,k); i <= MAX(j,k); i++){
         deletaElementoj(inicio, i);
     }
     return inicio;

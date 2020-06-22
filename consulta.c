@@ -67,6 +67,7 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
         }
         if(strcmp(comando, "o?") == 0){ 
             fscanf(qry, "%d %d", &j, &k);
+            printf("\n\t\tVERIFICANDO SOBREPOSIÇÃO . . .");
             retorno = sobrepoe(inicio, j, k, retorno);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
 
@@ -82,6 +83,7 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
         }
         else if(strcmp(comando, "i?") == 0){
             fscanf(qry, "%d %f %f", &j, &x, &y);
+            printf("\n\t\tVERIFICANDO SE O PONTO X,Y É INTERNO . . .");
             retorno = ponto(inicio, j, x, y, retorno);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
             if(retorno == 1){
@@ -96,24 +98,28 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
         }
         else if(strcmp(comando, "pnt") == 0){
             fscanf(qry, "%d %s %s", &j, corb, corp);
+            printf("\n\t\tMUDANDO COR . . .");
             retorno = mudaCorj(inicio, j, corb, corp);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "pnt*") == 0){
             fscanf(qry, "%d %d %s %s", &j, &k, corb, corp);
+            printf("\n\t\tMUDANDO CORES . . .");
             retorno = mudaCorjk(inicio, j, k, corb, corp);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "delf") == 0){
             fscanf(qry, "%d", &j);
+            printf("\n\t\tDELETANDO ELEMENTO . . .");
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
             inicio = deletaElementoj(inicio, j);
             
         }
         else if(strcmp(comando, "delf*") == 0){
             fscanf(qry, "%d %d", &j, &k);
-            inicio = deletaElementojk(inicio, j, k);
+            printf("\n\t\tDELETANDO ELEMENTOS. . .");
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
+            inicio = deletaElementojk(inicio, j, k);
         }
     }
 
@@ -143,10 +149,10 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
         if (deltaX * deltaX + deltaY * deltaY < (auxJ->fig->crl.r + auxK->fig->crl.r) * 
             (auxJ->fig->crl.r + auxK->fig->crl.r)){        
             dentro = 1; 
-            printf("\n\tOs circulos se sobrepoem!");
+            printf("\n\tOs circulos %d e %d se sobrepoem!", j, k);
         }
         else{
-            printf("\n\tOs circulos nao se sobrepoem!");
+            printf("\n\tOs circulos %d e %d nao se sobrepoem!", j, k);
         }
     }
 
@@ -200,10 +206,10 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
         }
 
         if(dentro == 1){
-            printf("\n\tOs retangulos se sobrepoem!");
+            printf("\n\tOs retangulos %d e %d se sobrepoem!", j, k);
         }
         else{
-            printf("\n\tOs retangulos nao se sobrepoem!");
+            printf("\n\tOs retangulos %d e %d nao se sobrepoem!", j, k);
         }
     }
 
@@ -234,10 +240,20 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
         float deltaY = nY - crl->fig->crl.y;
         if(deltaX * deltaX + deltaY * deltaY < crl->fig->crl.r * crl->fig->crl.r){
             dentro = 1;
-            printf("\n\tO circulo e o retangulo se sobrepoem!");
+            if (auxJ->tipo == 'c'){
+                printf("\n\tO circulo %d e o retangulo %d se sobrepoem!", j, k);
+            }
+            else{
+                printf("\n\tO circulo %d e o retangulo %d se sobrepoem!", k, j);
+            }
         }  
         else{
-            printf("\n\tO circulo e o retangulo nao se sobrepoem!");
+            if (auxJ->tipo == 'c'){
+                printf("\n\tO circulo %d e o retangulo %d nao se sobrepoem!", j, k);
+            }
+            else{
+                printf("\n\tO circulo %d e o retangulo %d nao se sobrepoem!", k, j);
+            }
         }
     }
 
@@ -267,10 +283,10 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         y = aux->fig->crl.y - y;
         if (x * x + y * y < aux->fig->crl.r * aux->fig->crl.r){
             interno = 1;
-            printf("\n\tO ponto está dentro do circulo!");
+            printf("\n\tO ponto %f,%f está dentro do circulo %d!", x, y, j);
         }
         else{
-            printf("\n\tO ponto está fora do circulo!");
+            printf("\n\tO ponto está %f,%f fora do circulo %d!", x, y, j);
         }
     }
 
@@ -280,10 +296,10 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         if ((aux->fig->ret.x < x && x < aux->fig->ret.x + aux->fig->ret.w) && 
             (aux->fig->ret.y < y && y < aux->fig->ret.y + aux->fig->ret.h)){
             interno = 1;
-            printf("\n\tO ponto esta dentro do retangulo!");
+            printf("\n\tO ponto %f,%f esta dentro do retangulo %d!", x, y, j);
         }
         else{
-            printf("\n\tO ponto esta fora do retangulo!");
+            printf("\n\tO ponto %f,%f esta fora do retangulo %d!", x, y, j);
         }
     }
 
@@ -304,18 +320,30 @@ int mudaCorj(No *inicio, int j, char corb[], char corp[]){ //pnt
     }
 
     if(aux->tipo == 'c'){
+        printf("Cor da borda antes: %s |    ", aux->fig->crl.corb);
         strcpy(aux->fig->crl.corb, corb);
+        printf("Cor da borda depois: %s\n", aux->fig->crl.corb);
+        printf("Cor do preenchimento antes: %s |    ", aux->fig->crl.corp);
         strcpy(aux->fig->crl.corp, corp);
+        printf("Cor do preenchimento depois: %s\n", aux->fig->crl.corp);
     }
 
     else if(aux->tipo == 'r'){
+        printf("Cor da borda antes: %s |    ", aux->fig->ret.corb);
         strcpy(aux->fig->ret.corb, corb);
+        printf("Cor da borda depois: %s\n", aux->fig->ret.corb);
+        printf("Cor do preenchimento antes: %s |    ", aux->fig->ret.corb);
         strcpy(aux->fig->ret.corp, corp);
+        printf("Cor do preenchimento depois: %s\n", aux->fig->ret.corb);
     }
 
     else if(aux->tipo == 't'){
+        printf("Cor da borda antes: %s |    ", aux->fig->texto.corb);
         strcpy(aux->fig->texto.corb, corb);
+        printf("Cor da borda depois: %s\n", aux->fig->texto.corb);
+        printf("Cor do preenchimento antes: %s |    ", aux->fig->texto.corb);
         strcpy(aux->fig->texto.corp, corp);
+        printf("Cor do preenchimento depois: %s\n", aux->fig->texto.corb);
     }
     
     return 1;
@@ -343,7 +371,7 @@ int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
         maior = auxJ->id;
         menor = auxJ->id;
     }
-    for(int i = menor; i < maior; i++){
+    for(int i = menor; i <= maior; i++){
         mudaCorj(inicio, i, corb, corp);
     }
 
