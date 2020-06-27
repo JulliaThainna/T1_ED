@@ -7,7 +7,7 @@
 #include "trataString.h"
 #include "criaArquivo.h"
 
-//Fazer condição pro svg do qry
+
 No *desenhaSvg(No *inicio, char pathSaida[]){
     
     FILE *arqSvg = NULL;
@@ -17,16 +17,14 @@ No *desenhaSvg(No *inicio, char pathSaida[]){
         printf("\n\tErro inesperado! Nao foi possivel criar arquivo .svg.");
         exit(1);
     }
-
-    //inicio = viewBoxSvg(inicio, arqSvg);
-    No *aux = inicio;
     fprintf(arqSvg, "<svg>");
-    while (aux != NULL){
-        if (aux->fig != NULL){
-            if (aux->tipo == 'c'){ // <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+    No *aux = inicio;
+    while(aux != NULL){
+        if(aux->fig != NULL){
+            if(aux->tipo == 'c'){ // <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
                 fprintf(arqSvg, "\n\t<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"%s\" fill=\"%s\"/>", aux->fig->crl.x, aux->fig->crl.y, aux->fig->crl.r, aux->fig->crl.corb, aux->fig->crl.corp);
             }
-            else if (aux->tipo == 'r'){ //<rect width="300" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+            else if(aux->tipo == 'r'){ //<rect width="300" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
                 fprintf(arqSvg, "\n\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" style=\"fill:%s;stroke:%s\"/>", aux->fig->ret.x, aux->fig->ret.y, aux->fig->ret.w, aux->fig->ret.h, aux->fig->ret.corb, aux->fig->ret.corp);
             }
             else if (aux->tipo == 't'){ //<text x="0" y="15" fill="red">I love SVG!</text>
@@ -42,3 +40,5 @@ No *desenhaSvg(No *inicio, char pathSaida[]){
     
     return inicio;
 }
+//  <rect width="300" height="100" style=" fill:yellow; stroke:blue; stroke-dasharray: 10 10; stroke-width:4px" />
+//  stroke-dasharray: 10 10; stroke-width:4px; fill-opacity="0.0

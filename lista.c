@@ -9,6 +9,7 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
+
 No *adicionaElemento(No *inicio, int id, char tipo){
     if(inicio == NULL){
         printf("\n\t\tINICIANDO LISTA . . . \n");
@@ -47,8 +48,8 @@ No *adicionaElemento(No *inicio, int id, char tipo){
 No *buscaElemento(No *inicio, int id){
     No *aux = inicio;
     //int iguais = 0;
-    while (aux != NULL){
-        if (id == aux->id){
+    while(aux != NULL){
+        if(id == aux->id){
             return aux;
         }
         aux = aux->prox;
@@ -105,100 +106,6 @@ No *deletaLista(No *inicio){
     return inicio;
 }
 
-No *deletaElementoj(No *inicio, int j){
-    No *aux = inicio;
-    No *ant = NULL;
-    if (aux->id == j){
-        inicio = aux->prox;
-        if(aux->tipo == 't'){
-            free(aux->fig->texto.texto);
-        }
-        free(aux->fig);
-        free(aux);
-        printf("\n\tElemento J deletado com sucesso! ID: %d \n", j);
-        return inicio;
-    }
-
-    while (aux != NULL && aux->id != j){
-        ant = aux;
-        aux = aux->prox;
-        if(aux->prox == NULL){
-            printf("\n\tNao foi possivel encontrar o elemento J! ID: %d \n", j);
-            return inicio;
-        }
-    }
-
-    if (aux == NULL){
-        printf("\n\tLista não foi iniciada");
-        return inicio;
-    }
-
-    ant->prox = aux->prox;
-    if (aux->tipo == 't'){
-        free(aux->fig->texto.texto);
-    }
-    free(aux->fig);
-    free(aux);
-    printf("\n\tElemento deletado com sucesso! ID: %d \n", j);
-    return inicio;
-}
-
-/*
-No *deletarElemento(No *inicio, int id){
-  No *aux = inicio;
-  No *ant = NULL;
-  while (aux != NULL){
-    if (aux->id == id){
-      inicio = aux->prox;
-      free(aux);
-      //return inicio;
-    }
-    else if (aux->prox->id == id){
-      ant = aux;
-      aux = aux->prox;
-      ant->prox = aux->prox;
-      free(aux);
-    }
-    //else
-    aux = aux->prox;
-  }
-  return inicio;
-}
-
-Passo inicio da lista e id como parametros.
-Declaro uma variavel auxiliar que recebe o inicio da lista (para não perder o inicio)
-Declaro uma variavel anterior que recebe NULL
-Enquanto o auxiliar for diferente de NULL
-    Se o id do auxiliar for igual ao id passado no parametro, quer dizer que o primeiro elemento da lista é o que esta sendo procurado
-        o inicio da lista vai receber o proximo elemento da lista
-        dou free na variavel auxiliar que era o inicio
-    Senao se o id do proximo elemento da lista for igual ao id passado no parametro, quer dizer que o elemento a ser deletado nao é o primeiro da lista
-        a variavel anterior recebe a variavel aux
-        a variavel auxiliar recebe o proximo elemento da lista
-        o proximo do anterior vai receber o proximo do auxiliar
-    Para percorrer a lista, faz-se auxiliar recebe o proximo elemento da lista    (aqui problema)              
-*/
-
-No *deletaElementojk(No *inicio, int j, int k){
-    No *auxJ = buscaElemento(inicio, j);
-    if (auxJ == NULL){
-        printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
-        return NULL;
-
-    }
-    No *auxK = buscaElemento(inicio, k);
-    if (auxK == NULL){
-        printf("\n\tNao foi possivel encontrar o elemento K. ID: %d!", k);
-        return NULL;
-    }
-
-    for(int i = MIN(j,k); i <= MAX(j,k); i++){
-        deletaElementoj(inicio, i);
-    }
-    return inicio;
-}
-
-
 
 No *adicionaRetangulo(No *inicio, int id, float w, float h, float x, float y, char corb[], char corp[]){
     printf("\n\tBUSCANDO ELEMENTO . . . ");
@@ -207,6 +114,7 @@ No *adicionaRetangulo(No *inicio, int id, float w, float h, float x, float y, ch
         printf("\nNao foi possivel encontrar o elemento \"retangulo\". ID: %d!", id); 
         return NULL;
     }
+
 
     aux->fig = (Info*)malloc(sizeof(Info));
     if(aux->fig == NULL){
@@ -248,13 +156,13 @@ No *adicionaCirculo(No *inicio, int id, float r, float x, float y, char corb[], 
 No *adicionaTexto(No *inicio, int id, float x, float y, char texto[], char corb[], char corp[], int size){
     printf("\n\tBUSCANDO ELEMENTO . . . ");
     No *aux = buscaElemento(inicio, id);
-    if (aux == NULL){ 
+    if(aux == NULL){ 
         printf("\nElemento \"texto\" nao foi encontrado!");
         return NULL;
     }
 
     aux->fig = (Info*)malloc(sizeof(Info));
-    if (aux->fig == NULL){
+    if(aux->fig == NULL){
         printf("\nErro inesperado! Memoria insuficiente para adicionar um novo elemento \"texto\".");
         exit(1);
     }
@@ -272,21 +180,117 @@ No *adicionaTexto(No *inicio, int id, float x, float y, char texto[], char corb[
     return inicio;
 }
 
-/*No *adicionaBtracej(No *inicio, int j, int k){
-    return inicio;
-}*/
+No *adicionaLinha(No *inicio, float x1, float y1, float x2, float y2, char corp[]){
+    No *aux;
+    aux->fig = (Info*)malloc(sizeof(Info));
+    if(aux->fig == NULL){
+        printf("\nErro inesperado! Memoria insuficiente.");
+        exit(1);
+    }
 
-/*No *adicionaBcheia(No *inicio, int j, int k){
-    return inicio;
-}*/
+    aux->fig->linha.x1 = x1;
+    aux->fig->linha.y1 = y1;
+    aux->fig->linha.x2 = x2;
+    aux->fig->linha.y2 = y2;
+    strcpy(aux->fig->linha.corp, corp);
 
-/*No *adicionaPonto(No *inicio, int j, float x, float y){
     return inicio;
-}*/
+}
 
-/*No *adicionaLinha(No *inicio, int j, float x, float y){
+
+No *deletaElementoj(No *inicio, int j){
+    No *aux = inicio;
+    No *ant = NULL;
+    if(aux->id == j){
+        inicio = aux->prox;
+        if(aux->tipo == 't'){
+            free(aux->fig->texto.texto);
+        }
+        free(aux->fig);
+        free(aux);
+        printf("\n\tElemento J deletado com sucesso! ID: %d \n", j);
+        return inicio;
+    }
+
+    while(aux != NULL && aux->id != j){
+        ant = aux;
+        aux = aux->prox;
+        if(aux->prox == NULL){
+            printf("\n\tNao foi possivel encontrar o elemento J! ID: %d \n", j);
+            return inicio;
+        }
+    }
+
+    if(aux == NULL){
+        printf("\n\tLista não foi iniciada");
+        return inicio;
+    }
+
+    ant->prox = aux->prox;
+    if(aux->tipo == 't'){
+        free(aux->fig->texto.texto);
+    }
+    free(aux->fig);
+    free(aux);
+    printf("\n\tElemento deletado com sucesso! ID: %d \n", j);
+    
     return inicio;
-}*/
+}
+
+No *deletaElementojk(No *inicio, int j, int k){
+    No *auxJ = buscaElemento(inicio, j);
+    if(auxJ == NULL){
+        printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
+        return NULL;
+
+    }
+    No *auxK = buscaElemento(inicio, k);
+    if(auxK == NULL){
+        printf("\n\tNao foi possivel encontrar o elemento K. ID: %d!", k);
+        return NULL;
+    }
+
+    for(int i = MIN(j,k); i <= MAX(j,k); i++){
+        deletaElementoj(inicio, i);
+    }
+    return inicio;
+}
+
+/*
+No *deletarElemento(No *inicio, int id){
+  No *aux = inicio;
+  No *ant = NULL;
+  while (aux != NULL){
+    if (aux->id == id){
+      inicio = aux->prox;
+      free(aux);
+      //return inicio;
+    }
+    else if (aux->prox->id == id){
+      ant = aux;
+      aux = aux->prox;
+      ant->prox = aux->prox;
+      free(aux);
+    }
+    //else
+    aux = aux->prox;
+  }
+  return inicio;
+}
+
+Passo inicio da lista e id como parametros.
+Declaro uma variavel auxiliar que recebe o inicio da lista (para não perder o inicio)
+Declaro uma variavel anterior que recebe NULL
+Enquanto o auxiliar for diferente de NULL
+    Se o id do auxiliar for igual ao id passado no parametro, quer dizer que o primeiro elemento da lista é o que esta sendo procurado
+        o inicio da lista vai receber o proximo elemento da lista
+        dou free na variavel auxiliar que era o inicio
+    Senao se o id do proximo elemento da lista for igual ao id passado no parametro, quer dizer que o elemento a ser deletado nao é o primeiro da lista
+        a variavel anterior recebe a variavel aux
+        a variavel auxiliar recebe o proximo elemento da lista
+        o proximo do anterior vai receber o proximo do auxiliar
+    Para percorrer a lista, faz-se auxiliar recebe o proximo elemento da lista    (aqui problema)              
+*/
 
 
 /*No *viewBoxSvg(No *inicio, FILE *arqSvg){

@@ -8,6 +8,7 @@
 #include "svg.h"
 #include "criaArquivo.h"
 
+
 int main(int argc, char *argv[]){
 
     No *lista = NULL;
@@ -38,7 +39,7 @@ int main(int argc, char *argv[]){
         else if(strcmp(argv[i], "-f") == 0){        
             i++; 
             printf("\n\t\t> Arquivo .geo: %s", argv[i]);
-            if (strcmp(argv[i], "-q") == 0){
+            if(strcmp(argv[i], "-q") == 0){
                 printf("\nArquivo nao inserido!");
                 continue;
             }
@@ -80,6 +81,7 @@ int main(int argc, char *argv[]){
             strcpy(dirSaida, argv[i]);
         }
     }
+    
     if(arqGeo == NULL || dirSaida == NULL){ 
         printf("\nParametros essenciais nao foram inseridos!");
         exit(1);

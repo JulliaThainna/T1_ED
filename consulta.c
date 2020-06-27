@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#include<time.h>
 
 #include "lista.h"
 #include "consulta.h"
@@ -23,7 +23,14 @@ No *abreQry(No *inicio, char dirEntrada[], char arqQry[], char pathSaida[]){
             printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
             exit(1);
         }
+        if(!qry) {
+          printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo "
+                 "inexistente.");
+          exit(1);
+        }
+
     }
+
     else{
         pathEntrada = trataStringCaminho(dirEntrada, arqQry);
         printf("\n\t > Arquivo .qry: %s", pathEntrada);
@@ -52,16 +59,18 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
     printf("\n\t\tABRINDO ARQUIVO .txt . . . ");
     printf("\n\t\t > Arquivo .txt: %s", pathSaida);
     qrySaida = fopen(pathSaida, "a+");
-    if (!qrySaida){
+    if(!qrySaida){
         printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
         exit(1);
     }
     printf("\n\tArquivo .txt aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
+    srand((unsigned) time(NULL));
 
     while(1){
         retorno = 0;
         fscanf(qry, "%s", comando); //vai pra proxima linha automaticamente?
+
         if(feof(qry)){
             break;
         }
@@ -70,15 +79,12 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
             printf("\n\t\tVERIFICANDO SOBREPOSIÇÃO . . .");
             retorno = sobrepoe(inicio, j, k, retorno);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
-
+            inicio = adicionaElemento(inicio, 0, 'r');
             if(retorno == 1){
-                //adicionaBcheia(inicio, j, k);
+                inicio = geraCoordenadas(inicio, j, k, x, y, comando, retorno);
             }
             else if(retorno == 0){
-                //adicionaBtracej(inicio, j, k);
-            }
-            else{
-                //
+                inicio = geraCoordenadas(inicio, j, k, x, y, comando, retorno);
             }
         }
         else if(strcmp(comando, "i?") == 0){
@@ -86,14 +92,13 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
             printf("\n\t\tVERIFICANDO SE O PONTO X,Y É INTERNO . . .");
             retorno = ponto(inicio, j, x, y, retorno);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
+            inicio = adicionaElemento(inicio, 0, 'c');
+            inicio = adicionaElemento(inicio, 0, 'l');
             if(retorno == 1){
-                //adicionaPonto(inicio, j, x, y);
+                inicio = geraCoordenadas(inicio, j, k, x, y, comando, retorno);
             }
             else if(retorno == 0){
-                //adicionaLinha(inicio, j, x, y);
-            }
-            else{
-                //
+                inicio = geraCoordenadas(inicio, j, k, x, y, comando, retorno);
             }
         }
         else if(strcmp(comando, "pnt") == 0){
@@ -135,7 +140,7 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
     -verificar se existe a sobreposição
     */
     No *auxJ = buscaElemento(inicio, j); //fixo (x e y , x+w e y+h)
-    if (auxJ == NULL){
+    if(auxJ == NULL){
         printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
     }
     No *auxK = buscaElemento(inicio, k); //móvel (px e py)
@@ -146,7 +151,7 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
     if(auxJ->tipo == 'c' && auxK->tipo == 'c'){ //circulo e circulo
         float deltaX = auxJ->fig->crl.x - auxK->fig->crl.x;
         float deltaY = auxJ->fig->crl.y - auxK->fig->crl.y;
-        if (deltaX * deltaX + deltaY * deltaY < (auxJ->fig->crl.r + auxK->fig->crl.r) * 
+        if(deltaX * deltaX + deltaY * deltaY <= (auxJ->fig->crl.r + auxK->fig->crl.r) * 
             (auxJ->fig->crl.r + auxK->fig->crl.r)){        
             dentro = 1; 
             printf("\n\tOs circulos %d e %d se sobrepoem!", j, k);
@@ -177,30 +182,30 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
         float py = auxK->fig->ret.y;
         
         //x,y    x+w,y    x,y+h    x+w,y+h
-        if(x < px && px < x + w){
-            if(y < py && py < y + h){
+        if(x <= px && px <= x + w){
+            if(y <= py && py <= y + h){
                 dentro = 1;
             }
         }
 
         px += auxK->fig->ret.w;
-        if(x < px && px < x + w){
-            if(y < py && py < y + h){
+        if(x <= px && px <= x + w){
+            if(y <= py && py <= y + h){
                 dentro = 1;
             }
         }
 
         py += auxK->fig->ret.h; //px = x+w  py = y+h
         px = auxK->fig->ret.x;
-        if (x < px && px < x + w){
-            if (y < py && py < y + h){
+        if(x <= px && px <= x + w){
+            if(y <= py && py <= y + h){
                 dentro = 1;
             }
         }
 
         px += auxK->fig->ret.w; //py = y+h  px = x
-        if (x < px && px < x + w){
-            if (y < py && py < y + h){
+        if(x <= px && px <= x + w){
+            if(y <= py && py <= y + h){
                 dentro = 1;
             }
         }
@@ -240,7 +245,7 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
         float deltaY = nY - crl->fig->crl.y;
         if(deltaX * deltaX + deltaY * deltaY < crl->fig->crl.r * crl->fig->crl.r){
             dentro = 1;
-            if (auxJ->tipo == 'c'){
+            if(auxJ->tipo == 'c'){
                 printf("\n\tO circulo %d e o retangulo %d se sobrepoem!", j, k);
             }
             else{
@@ -248,7 +253,7 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
             }
         }  
         else{
-            if (auxJ->tipo == 'c'){
+            if(auxJ->tipo == 'c'){
                 printf("\n\tO circulo %d e o retangulo %d nao se sobrepoem!", j, k);
             }
             else{
@@ -268,12 +273,12 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
 int ponto(No *inicio, int j, float x, float y, int interno){ //i?
     No *aux = NULL;
     aux = buscaElemento(inicio, j);
-    if (aux == NULL){
+    if(aux == NULL){
         printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
         return -2;
     }
 
-    if (aux->tipo == 'c'){ //circulo
+    if(aux->tipo == 'c'){ //circulo
         //distancia de x = aux->fig->crl.x - x
         //distancia de y = aux->fig->crl.y - y
         //d^2 = dX^2 + dY^2
@@ -281,7 +286,7 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         //ou seja, dx^2 + dy^2 < r^2
         x = aux->fig->crl.x - x;
         y = aux->fig->crl.y - y;
-        if (x * x + y * y < aux->fig->crl.r * aux->fig->crl.r){
+        if(x * x + y * y < aux->fig->crl.r * aux->fig->crl.r){
             interno = 1;
             printf("\n\tO ponto %f,%f está dentro do circulo %d!", x, y, j);
         }
@@ -290,7 +295,7 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         }
     }
 
-    else if (aux->tipo == 'r'){ //retangulo
+    else if(aux->tipo == 'r'){ //retangulo
         //x < px < x+w
         //y < py < y+h
         if ((aux->fig->ret.x < x && x < aux->fig->ret.x + aux->fig->ret.w) && 
@@ -303,18 +308,18 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         }
     }
 
-    else if (aux->tipo == 't'){ //texto
+    else if(aux->tipo == 't'){ //texto
         interno = -1;
         printf("\n\tNao e possivel verificar um ponto no tipo texto!");
         
     }
-    
+
     return interno;
 }
 
 int mudaCorj(No *inicio, int j, char corb[], char corp[]){ //pnt
     No *aux = buscaElemento(inicio, j);
-    if (aux == NULL){
+    if(aux == NULL){
         printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
         return -2;
     }
@@ -351,12 +356,12 @@ int mudaCorj(No *inicio, int j, char corb[], char corp[]){ //pnt
 
 int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
     No *auxJ = buscaElemento(inicio, j);
-    if (auxJ == NULL){
+    if(auxJ == NULL){
         printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
         return -2;
     }
     No *auxK = buscaElemento(inicio, k);
-    if (auxK == NULL){
+    if(auxK == NULL){
         return -2;
         printf("\n\tNao foi possivel encontrar o elemento K. ID: %d!", k);
     }
@@ -376,4 +381,40 @@ int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
     }
 
     return 1;
+}
+
+No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], int retorno){
+    No *auxJ = buscaElemento(inicio, j);
+    float deltaX, deltaY;
+
+    if(strcmp(comando, "i?") == 0){
+        if(auxJ->tipo == 'r'){
+            x = (auxJ->fig->ret.x + auxJ->fig->ret.w)/2;
+            y = (auxJ->fig->ret.y + auxJ->fig->ret.h)/2;
+            deltaX = abs(auxJ->fig->ret.x - x);
+            deltaY = abs(auxJ->fig->ret.y - y);
+        }
+        else{
+            x = auxJ->fig->crl.x;
+            y = auxJ->fig->crl.y;
+            deltaX = abs(auxJ->fig->crl.x - x);
+            deltaY = abs(auxJ->fig->crl.y - y);
+        }
+
+        if(retorno == 1){
+            inicio = adicionaCirculo(inicio, 0, 2, x, y, "none", "blue");
+            inicio = adicionaLinha(inicio, deltaX, deltaY, x, y, "blue");
+        }
+        else{
+            adicionaCirculo(inicio, 0, 2, x, y, "none", "magenta");
+            inicio = adicionaLinha(inicio, deltaX, deltaY, x, y, "magenta");
+        }
+    }
+
+    else if(strcmp(comando, "o?") == 0){
+        No *auxK = buscaElemento(inicio, k);
+        
+    }
+
+    return inicio;
 }

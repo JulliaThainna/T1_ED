@@ -7,6 +7,8 @@
 #include "consulta.h"
 #include "trataString.h"
 
+
+
 No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
     FILE *geo = NULL;
     char *pathEntrada = NULL;
@@ -20,11 +22,12 @@ No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
            exit(1);
         }
     }
+    
     else{
         pathEntrada = trataStringCaminho(dirEntrada, arqGeo);
         printf("\n\t > Arquivo .geo: %s", pathEntrada);
         geo = fopen(pathEntrada, "r");
-        if (!geo){
+        if(!geo){
             printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Diretorio ou arquivo inexistente.");
             exit(1);
         }
@@ -47,9 +50,9 @@ No *comandoGeo(FILE *geo, No *inicio){
     char comando[3] = {'\0', '\0', '\0'}, corb[22], corp[22], buffer;
 
     printf("\n\t\tLENDO ARQUIVO .geo . . . ");
-    while (i < defaultNumMax){
+    while(i < defaultNumMax){
         fscanf(geo, "%s", comando);
-        if (feof(geo)){
+        if(feof(geo)){
             break;
         }
         if(strcmp(comando, "nx") == 0){

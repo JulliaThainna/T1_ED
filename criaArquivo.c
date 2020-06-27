@@ -3,6 +3,7 @@
 
 #include "trataString.h"
 
+
 char *criaArqSaida(char arqGeo[], char dirSaida[], char tipoArqE[], char tipoArqS[]){
     FILE *arq = NULL;
     char *pathSaida = NULL;
@@ -11,7 +12,7 @@ char *criaArqSaida(char arqGeo[], char dirSaida[], char tipoArqE[], char tipoArq
     pathSaida = trataStringTipo(dirSaida, arqGeo, tipoArqE, tipoArqS); 
     printf("\n\t\t > Arquivo .%s: %s", tipoArqS, pathSaida);
     arq = fopen(pathSaida, "w");
-    if (arq == NULL){
+    if(arq == NULL){
         printf("\nErro inesperado! Nao foi possivel criar arquivo .%s.",tipoArqS);
         exit(1);
     }
