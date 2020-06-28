@@ -47,7 +47,7 @@ No *deletaLista(No *inicio);
 No *adicionaRetangulo(No *inicio, int id, float w, float h, float x, float y, char corb[], char corp[]);
 No *adicionaCirculo(No *inicio, int id, float r, float x, float y, char corb[], char corp[]);
 No *adicionaTexto(No *inicio, int id, float x, float y, char texto[], char corb[], char corp[], int size);
-No *adicionaLinha(No *inicio, float x1, float y1, float x2, float y2, char corp[]);
+No *adicionaLinha(No *inicio, int id, float x1, float y1, float x2, float y2, char corp[]);
 
 No *deletaElementoj(No *inicio, int j);
 No *deletaElementojk(No *inicio, int j, int k);

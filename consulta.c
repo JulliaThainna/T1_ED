@@ -51,7 +51,7 @@ No *abreQry(No *inicio, char dirEntrada[], char arqQry[], char pathSaida[]){
 
 No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
     int retorno;
-    int j = 0, k = 0;
+    int j = 0, k = 0, i = 0;
     float x, y;
     char comando[6], corb[22], corp[22];
 
@@ -65,7 +65,6 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
     }
     printf("\n\tArquivo .txt aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
-    srand((unsigned) time(NULL));
 
     while(1){
         retorno = 0;
@@ -76,56 +75,59 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
         }
         if(strcmp(comando, "o?") == 0){ 
             fscanf(qry, "%d %d", &j, &k);
-            printf("\n\t\tVERIFICANDO SOBREPOSIÇÃO . . .");
+            printf("\n\n\t\tVERIFICANDO SOBREPOSIÇÃO . . .");
             retorno = sobrepoe(inicio, j, k, retorno);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
-            inicio = adicionaElemento(inicio, 0, 'r');
+            inicio = adicionaElemento(inicio, i*-1, 'r');
             if(retorno == 1){
-                inicio = geraCoordenadas(inicio, j, k, x, y, comando, retorno);
+               geraCoordenadas(inicio, j, k, x, y, comando, retorno, i*-1);
             }
             else if(retorno == 0){
-                inicio = geraCoordenadas(inicio, j, k, x, y, comando, retorno);
+                geraCoordenadas(inicio, j, k, x, y, comando, retorno, i*-1);
             }
         }
         else if(strcmp(comando, "i?") == 0){
             fscanf(qry, "%d %f %f", &j, &x, &y);
-            printf("\n\t\tVERIFICANDO SE O PONTO X,Y É INTERNO . . .");
+            printf("\n\n\t\tVERIFICANDO SE O PONTO X,Y É INTERNO . . .");
             retorno = ponto(inicio, j, x, y, retorno);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
-            inicio = adicionaElemento(inicio, 0, 'c');
-            inicio = adicionaElemento(inicio, 0, 'l');
+            inicio = adicionaElemento(inicio, i*-1, 'c');
+            i++;
+            inicio = adicionaElemento(inicio, i*-1, 'l');
             if(retorno == 1){
-                inicio = geraCoordenadas(inicio, j, k, x, y, comando, retorno);
+                geraCoordenadas(inicio, j, k, x, y, comando, retorno, i*-1);
             }
             else if(retorno == 0){
-                inicio = geraCoordenadas(inicio, j, k, x, y, comando, retorno);
+                geraCoordenadas(inicio, j, k, x, y, comando, retorno, i*-1);
             }
         }
         else if(strcmp(comando, "pnt") == 0){
             fscanf(qry, "%d %s %s", &j, corb, corp);
-            printf("\n\t\tMUDANDO COR . . .");
+            printf("\n\n\t\tMUDANDO COR . . .");
             retorno = mudaCorj(inicio, j, corb, corp);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "pnt*") == 0){
             fscanf(qry, "%d %d %s %s", &j, &k, corb, corp);
-            printf("\n\t\tMUDANDO CORES . . .");
+            printf("\n\n\t\tMUDANDO CORES . . .");
             retorno = mudaCorjk(inicio, j, k, corb, corp);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
         }
         else if(strcmp(comando, "delf") == 0){
             fscanf(qry, "%d", &j);
-            printf("\n\t\tDELETANDO ELEMENTO . . .");
+            printf("\n\n\t\tDELETANDO ELEMENTO . . .");
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
             inicio = deletaElementoj(inicio, j);
             
         }
         else if(strcmp(comando, "delf*") == 0){
             fscanf(qry, "%d %d", &j, &k);
-            printf("\n\t\tDELETANDO ELEMENTOS. . .");
+            printf("\n\n\t\tDELETANDO ELEMENTOS. . .");
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
             inicio = deletaElementojk(inicio, j, k);
         }
+        
+        i++;
     }
 
     fclose(qrySaida);
@@ -288,10 +290,10 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         y = aux->fig->crl.y - y;
         if(x * x + y * y < aux->fig->crl.r * aux->fig->crl.r){
             interno = 1;
-            printf("\n\tO ponto %f,%f está dentro do circulo %d!", x, y, j);
+            printf("\n\tO ponto %f,%f esta dentro do circulo %d!", x, y, j);
         }
         else{
-            printf("\n\tO ponto está %f,%f fora do circulo %d!", x, y, j);
+            printf("\n\tO ponto %f,%f esta fora do circulo %d!", x, y, j);
         }
     }
 
@@ -325,30 +327,30 @@ int mudaCorj(No *inicio, int j, char corb[], char corp[]){ //pnt
     }
 
     if(aux->tipo == 'c'){
-        printf("Cor da borda antes: %s |    ", aux->fig->crl.corb);
+        printf("\n\tCor da borda antes: %s | ", aux->fig->crl.corb);
         strcpy(aux->fig->crl.corb, corb);
-        printf("Cor da borda depois: %s\n", aux->fig->crl.corb);
-        printf("Cor do preenchimento antes: %s |    ", aux->fig->crl.corp);
+        printf("Cor da borda depois: %s", aux->fig->crl.corb);
+        printf("\n\tCor do preenchimento antes: %s | ", aux->fig->crl.corp);
         strcpy(aux->fig->crl.corp, corp);
         printf("Cor do preenchimento depois: %s\n", aux->fig->crl.corp);
     }
 
     else if(aux->tipo == 'r'){
-        printf("Cor da borda antes: %s |    ", aux->fig->ret.corb);
+        printf("\n\tCor da borda antes: %s | ", aux->fig->ret.corb);
         strcpy(aux->fig->ret.corb, corb);
-        printf("Cor da borda depois: %s\n", aux->fig->ret.corb);
-        printf("Cor do preenchimento antes: %s |    ", aux->fig->ret.corb);
+        printf("Cor da borda depois: %s", aux->fig->ret.corb);
+        printf("\n\tCor do preenchimento antes: %s | ", aux->fig->ret.corp);
         strcpy(aux->fig->ret.corp, corp);
-        printf("Cor do preenchimento depois: %s\n", aux->fig->ret.corb);
+        printf("Cor do preenchimento depois: %s\n", aux->fig->ret.corp);
     }
 
     else if(aux->tipo == 't'){
-        printf("Cor da borda antes: %s |    ", aux->fig->texto.corb);
+        printf("\n\tCor da borda antes: %s | ", aux->fig->texto.corb);
         strcpy(aux->fig->texto.corb, corb);
-        printf("Cor da borda depois: %s\n", aux->fig->texto.corb);
-        printf("Cor do preenchimento antes: %s |    ", aux->fig->texto.corb);
+        printf("Cor da borda depois: %s", aux->fig->texto.corb);
+        printf("\n\tCor do preenchimento antes: %s | ", aux->fig->texto.corp);
         strcpy(aux->fig->texto.corp, corp);
-        printf("Cor do preenchimento depois: %s\n", aux->fig->texto.corb);
+        printf("Cor do preenchimento depois: %s\n", aux->fig->texto.corp);
     }
     
     return 1;
@@ -373,9 +375,10 @@ int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
         menor = auxK->id;
     }
     else{
-        maior = auxJ->id;
+        maior = auxK->id;
         menor = auxJ->id;
     }
+
     for(int i = menor; i <= maior; i++){
         mudaCorj(inicio, i, corb, corp);
     }
@@ -383,31 +386,27 @@ int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
     return 1;
 }
 
-No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], int retorno){
+No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], int retorno, int id){
     No *auxJ = buscaElemento(inicio, j);
-    float deltaX, deltaY;
-
+    float xMeio, yMeio;
+ 
     if(strcmp(comando, "i?") == 0){
         if(auxJ->tipo == 'r'){
-            x = (auxJ->fig->ret.x + auxJ->fig->ret.w)/2;
-            y = (auxJ->fig->ret.y + auxJ->fig->ret.h)/2;
-            deltaX = abs(auxJ->fig->ret.x - x);
-            deltaY = abs(auxJ->fig->ret.y - y);
+            xMeio = (auxJ->fig->ret.x + auxJ->fig->ret.w)/2;
+            yMeio = (auxJ->fig->ret.y + auxJ->fig->ret.h)/2;
         }
         else{
-            x = auxJ->fig->crl.x;
-            y = auxJ->fig->crl.y;
-            deltaX = abs(auxJ->fig->crl.x - x);
-            deltaY = abs(auxJ->fig->crl.y - y);
+            xMeio = auxJ->fig->crl.x;
+            yMeio = auxJ->fig->crl.y;
         }
 
         if(retorno == 1){
-            inicio = adicionaCirculo(inicio, 0, 2, x, y, "none", "blue");
-            inicio = adicionaLinha(inicio, deltaX, deltaY, x, y, "blue");
+            inicio = adicionaCirculo(inicio, id, 2, x, y, "none", "blue");
+            inicio = adicionaLinha(inicio, id, xMeio, yMeio, x, y, "blue");
         }
         else{
-            adicionaCirculo(inicio, 0, 2, x, y, "none", "magenta");
-            inicio = adicionaLinha(inicio, deltaX, deltaY, x, y, "magenta");
+            inicio = adicionaCirculo(inicio, id, 2, xMeio, yMeio, "none", "magenta");
+            inicio = adicionaLinha(inicio, id, xMeio, yMeio, x, y, "magenta");
         }
     }
 

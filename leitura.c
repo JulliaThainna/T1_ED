@@ -102,6 +102,6 @@ No *comandoGeo(FILE *geo, No *inicio){
         i++;
     }
 
-    printf("\n\tLeitura do arquivo .geo finalizada com sucesso!");
+    printf("\n\n\tLeitura do arquivo .geo finalizada com sucesso!");
     return inicio;
 }

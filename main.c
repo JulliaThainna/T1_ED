@@ -105,7 +105,7 @@ int main(int argc, char *argv[]){
         free(pathSaida);
         printf("\n\t---------------------------------------------------\n");
         pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "svg"); 
-        //lista = desenhaSvg(lista, pathSaida); //Fazer condição pro svg do qry
+        lista = desenhaSvg(lista, pathSaida); //Fazer condição pro svg do qry
     }
     printf("\n\t---------------------------------------------------\n");
 

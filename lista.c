@@ -108,7 +108,7 @@ No *deletaLista(No *inicio){
 
 
 No *adicionaRetangulo(No *inicio, int id, float w, float h, float x, float y, char corb[], char corp[]){
-    printf("\n\tBUSCANDO ELEMENTO . . . ");
+    //printf("\n\tBUSCANDO ELEMENTO . . . ");
     No *aux = buscaElemento(inicio, id);
     if(aux == NULL){ 
         printf("\nNao foi possivel encontrar o elemento \"retangulo\". ID: %d!", id); 
@@ -132,7 +132,7 @@ No *adicionaRetangulo(No *inicio, int id, float w, float h, float x, float y, ch
 }
 
 No *adicionaCirculo(No *inicio, int id, float r, float x, float y, char corb[], char corp[]){
-    printf("\n\tBUSCANDO ELEMENTO . . . ");
+    //printf("\n\tBUSCANDO ELEMENTO . . . ");
     No *aux = buscaElemento(inicio, id);
     if(aux == NULL){ 
         printf("\nNao foi possivel encontrar o elemento \"circulo\". ID: %d!", id);
@@ -154,7 +154,7 @@ No *adicionaCirculo(No *inicio, int id, float r, float x, float y, char corb[], 
 }
 
 No *adicionaTexto(No *inicio, int id, float x, float y, char texto[], char corb[], char corp[], int size){
-    printf("\n\tBUSCANDO ELEMENTO . . . ");
+    //printf("\n\tBUSCANDO ELEMENTO . . . ");
     No *aux = buscaElemento(inicio, id);
     if(aux == NULL){ 
         printf("\nElemento \"texto\" nao foi encontrado!");
@@ -180,8 +180,14 @@ No *adicionaTexto(No *inicio, int id, float x, float y, char texto[], char corb[
     return inicio;
 }
 
-No *adicionaLinha(No *inicio, float x1, float y1, float x2, float y2, char corp[]){
-    No *aux;
+No *adicionaLinha(No *inicio, int id, float x1, float y1, float x2, float y2, char corp[]){
+    //printf("\n\tBUSCANDO ELEMENTO . . . ");
+    No *aux = buscaElemento(inicio, id);
+    if(aux == NULL){ 
+        printf("\nElemento \"texto\" nao foi encontrado!");
+        return NULL;
+    }
+    
     aux->fig = (Info*)malloc(sizeof(Info));
     if(aux->fig == NULL){
         printf("\nErro inesperado! Memoria insuficiente.");
@@ -208,7 +214,7 @@ No *deletaElementoj(No *inicio, int j){
         }
         free(aux->fig);
         free(aux);
-        printf("\n\tElemento J deletado com sucesso! ID: %d \n", j);
+        printf("\n\tElemento J deletado com sucesso! ID: %d", j);
         return inicio;
     }
 
@@ -216,7 +222,7 @@ No *deletaElementoj(No *inicio, int j){
         ant = aux;
         aux = aux->prox;
         if(aux->prox == NULL){
-            printf("\n\tNao foi possivel encontrar o elemento J! ID: %d \n", j);
+            printf("\n\tNao foi possivel encontrar o elemento J! ID: %d", j);
             return inicio;
         }
     }
@@ -232,7 +238,7 @@ No *deletaElementoj(No *inicio, int j){
     }
     free(aux->fig);
     free(aux);
-    printf("\n\tElemento deletado com sucesso! ID: %d \n", j);
+    printf("\n\tElemento deletado com sucesso! ID: %d", j);
     
     return inicio;
 }

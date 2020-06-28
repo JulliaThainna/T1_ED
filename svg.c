@@ -27,8 +27,11 @@ No *desenhaSvg(No *inicio, char pathSaida[]){
             else if(aux->tipo == 'r'){ //<rect width="300" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
                 fprintf(arqSvg, "\n\t<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" style=\"fill:%s;stroke:%s\"/>", aux->fig->ret.x, aux->fig->ret.y, aux->fig->ret.w, aux->fig->ret.h, aux->fig->ret.corb, aux->fig->ret.corp);
             }
-            else if (aux->tipo == 't'){ //<text x="0" y="15" fill="red">I love SVG!</text>
+            else if(aux->tipo == 't'){ //<text x="0" y="15" fill="red">I love SVG!</text>
                 fprintf(arqSvg, "\n\t<text x=\"%f\" y=\"%f\" fill=\"%s\" stroke=\"%s\" stroke-width=\"0.5\">%s</text>", aux->fig->texto.x, aux->fig->texto.y, aux->fig->texto.corp, aux->fig->texto.corb, aux->fig->texto.texto);
+            }
+            else if(aux->tipo == 'l'){
+                fprintf(arqSvg, "\n\t<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" style=\"stroke:%s;stroke-width:2\"/>", aux->fig->linha.x1, aux->fig->linha.y1, aux->fig->linha.x2, aux->fig->linha.y2, aux->fig->linha.corp);
             }
         }
         aux = aux->prox;
