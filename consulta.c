@@ -144,10 +144,12 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
     No *auxJ = buscaElemento(inicio, j); //fixo (x e y , x+w e y+h)
     if(auxJ == NULL){
         printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
+        return -2;
     }
     No *auxK = buscaElemento(inicio, k); //móvel (px e py)
     if(auxK == NULL){
         printf("\n\tNao foi possivel encontrar o elemento K. ID: %d!", k);
+        return -2;
     }
 
     if(auxJ->tipo == 'c' && auxK->tipo == 'c'){ //circulo e circulo
@@ -286,27 +288,29 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         //d^2 = dX^2 + dY^2
         //condição: d < r, d^2 < r^2
         //ou seja, dx^2 + dy^2 < r^2
+        printf("\n\tO ponto %f,%f", x,y);
         x = aux->fig->crl.x - x;
         y = aux->fig->crl.y - y;
         if(x * x + y * y < aux->fig->crl.r * aux->fig->crl.r){
             interno = 1;
-            printf("\n\tO ponto %f,%f esta dentro do circulo %d!", x, y, j);
+            printf(" esta dentro do circulo %d!", j);
         }
         else{
-            printf("\n\tO ponto %f,%f esta fora do circulo %d!", x, y, j);
+            printf(" esta fora do circulo %d!", j);
         }
     }
 
     else if(aux->tipo == 'r'){ //retangulo
         //x < px < x+w
         //y < py < y+h
+        printf("\n\tO ponto %f,%f", x,y);
         if ((aux->fig->ret.x < x && x < aux->fig->ret.x + aux->fig->ret.w) && 
             (aux->fig->ret.y < y && y < aux->fig->ret.y + aux->fig->ret.h)){
             interno = 1;
-            printf("\n\tO ponto %f,%f esta dentro do retangulo %d!", x, y, j);
+            printf(" esta dentro do retangulo %d!", j);
         }
         else{
-            printf("\n\tO ponto %f,%f esta fora do retangulo %d!", x, y, j);
+            printf(" esta fora do retangulo %d!", j);
         }
     }
 
@@ -389,6 +393,7 @@ int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
 No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], int retorno, int id){
     No *auxJ = buscaElemento(inicio, j);
     float xMeio, yMeio;
+    float xR, yR, wR, hR;
  
     if(strcmp(comando, "i?") == 0){
         if(auxJ->tipo == 'r'){
@@ -401,19 +406,89 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
         }
 
         if(retorno == 1){
-            inicio = adicionaCirculo(inicio, id, 2, x, y, "none", "blue");
+            inicio = adicionaCirculo(inicio, id+1, 2, x, y, "none", "blue");
             inicio = adicionaLinha(inicio, id, xMeio, yMeio, x, y, "blue");
         }
         else{
-            inicio = adicionaCirculo(inicio, id, 2, xMeio, yMeio, "none", "magenta");
+            inicio = adicionaCirculo(inicio, id+1, 2, xMeio, yMeio, "none", "magenta");
             inicio = adicionaLinha(inicio, id, xMeio, yMeio, x, y, "magenta");
         }
     }
 
     else if(strcmp(comando, "o?") == 0){
         No *auxK = buscaElemento(inicio, k);
-        
-    }
+        if(auxJ->tipo == 'r' && auxK->tipo == 'r'){
+            xR = MIN(auxJ->fig->ret.x, auxK->fig->ret.x);
+            yR = MIN(auxJ->fig->ret.y, auxK->fig->ret.y);
+            wR = auxK->fig->ret.x + auxK->fig->ret.w + auxJ->fig->ret.x + auxJ->fig->ret.w;
+            hR = auxK->fig->ret.y + auxK->fig->ret.h + auxJ->fig->ret.y + auxJ->fig->ret.h;
+        }
 
+        if(auxJ->tipo == 'c' && auxK->tipo == 'c'){
+            xR = MIN(auxJ->fig->crl.x, auxK->fig->crl.x);
+            yR = MIN(auxJ->fig->crl.y, auxK->fig->crl.y);
+            if(xR == auxJ->fig->crl.x){
+                xR += auxJ->fig->crl.r;
+            }
+            else{
+                xR += auxK->fig->crl.r;
+            }
+            
+            if(yR == auxJ->fig->crl.y){
+                yR += auxJ->fig->crl.r;
+            }
+            else{
+                yR += auxK->fig->crl.r;
+            }
+
+            wR = (auxJ->fig->crl.r + auxJ->fig->crl.x) * 2 + (auxK->fig->crl.r + auxK->fig->crl.x);
+            hR = (auxJ->fig->crl.r + auxJ->fig->crl.y) * 2 + (auxK->fig->crl.r + auxK->fig->crl.y);
+        }
+    
+        if((auxJ->tipo == 'r' && auxK->tipo == 'c') || (auxJ->tipo == 'c' && auxK->tipo == 'r')){
+            No *ret = NULL;
+            No *crl = NULL;
+            float sobraX = 0, sobraY = 0;
+
+            if(auxJ->tipo == 'c'){
+                crl = auxJ;
+                ret = auxK;
+            }
+            else{
+                crl = auxK;
+                ret = auxJ;
+            }
+
+            xR = MIN(crl->fig->crl.x, ret->fig->ret.x);
+            yR = MIN(crl->fig->crl.y, ret->fig->ret.y);
+            if(xR == crl->fig->crl.x){ //se o x circulo estiver em 1o
+                xR -= crl->fig->crl.r;
+                sobraX = (crl->fig->crl.x + crl->fig->crl.r) - ret->fig->ret.x;
+            }
+            else{
+                sobraX = (crl->fig->crl.x - crl->fig->crl.r) - (ret->fig->ret.x + ret->fig->ret.w);
+            }
+            wR = ((crl->fig->crl.r * 2) + ret->fig->ret.w) - sobraX;
+
+            if(yR == crl->fig->crl.y){
+                yR -= crl->fig->crl.r;
+            }
+            if(crl->fig->crl.y >= ret->fig->ret.y){
+                sobraY = (crl->fig->crl.y - crl->fig->crl.r) - ret->fig->ret.y;
+            }
+            else{
+                sobraY = (crl->fig->crl.y + crl->fig->crl.r) - ret->fig->ret.y;
+            }
+            hR = ((crl->fig->crl.r * 2) + ret->fig->ret.h) - sobraY;
+        }
+
+        if(retorno == 1){
+            inicio = adicionaRetangulo(inicio, id, wR, hR, xR, yR, "black", "none");
+        }
+        else{
+            //inicio = adicionaRetangulo(inicio, id, wR, hR, xR, yR, "black", "none");
+        }
+    }
+//<rect x="3.000000" y="3.000000" width="6.000000" height="5.000000" style="fill:black;stroke:black;fill-opacity:0.0;stroke-width:0.02"/>
     return inicio;
 }

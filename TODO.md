@@ -4,9 +4,8 @@
     - [X] Mudar a variável bool retorno pra int retorno
 - [X] Terminar a função retornaInfo()
     - [X] Terminar os comandos pnt, pnt*, delf*
-- [ ] Terminar i? 
+- [X] Terminar i? 
 - [ ] Terminar o?
-- [ ] Fazer a condição do .svg pro .qry
 - [ ] Arrumar a viewbox da função desenhaSvg()
 - [ ] Tentar refatorar o código (Principalmente do arquivo trataString)
 - [ ] Verificar bugs e possíveis furos de lógica
