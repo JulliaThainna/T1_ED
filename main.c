@@ -33,6 +33,7 @@ int main(int argc, char *argv[]){
                 printf("\nErro inesperado! Memoria insuficiente para alocar o nome do diretorio de entrada.");
                 exit(1);
             }
+
             strcpy(dirEntrada, argv[i]); 
         }
 
@@ -106,11 +107,11 @@ int main(int argc, char *argv[]){
         printf("\n\t---------------------------------------------------\n");
         pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "svg"); 
         lista = imprimeLista(lista);
-        lista = desenhaSvg(lista, pathSaida); //Fazer condição pro svg do qry
+        lista = desenhaSvg(lista, pathSaida); //Fazer condicao pro svg do qry
     }
     printf("\n\t---------------------------------------------------\n");
 
-    //Libera o espaço alocado para as variáveis
+    //Libera o espaco alocado para as variaveis
     lista = deletaLista(lista);
     free(dirEntrada);
     free(arqGeo);
@@ -120,5 +121,6 @@ int main(int argc, char *argv[]){
 
     printf("\n\t\tMemoria desalocada com sucesso!");
     printf("\n\t\tPROCESSO CONCLUIDO COM SUCESSO!\n");
+    
     return 0;
 }

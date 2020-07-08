@@ -26,6 +26,7 @@ char *trataStringCaminho(char dirEntrada[], char arqGeo[]){
         memcpy(nomeGeo, arqGeo + 1, strlen(arqGeo));
         strcat(pathEntrada, nomeGeo);
     }
+
     else if(dirEntrada[strlen(dirEntrada) - 1] != '/' && arqGeo[0] != '/' && arqGeo[0] != '.'){
         pathEntrada = (char *)malloc(((strlen(dirEntrada) + strlen(arqGeo)) + 3) * sizeof(char));
         if(pathEntrada == NULL){
@@ -36,6 +37,7 @@ char *trataStringCaminho(char dirEntrada[], char arqGeo[]){
         strcat(pathEntrada, "/");
         strcat(pathEntrada, arqGeo);
     }
+
     else if((dirEntrada[strlen(dirEntrada) - 1] != '/' && arqGeo[0] == '/') || (dirEntrada[strlen(dirEntrada) - 1] == '/' && arqGeo[0] != '/' && arqGeo[0] != '.')){
         pathEntrada = (char *)malloc((strlen(dirEntrada) + strlen(arqGeo) + 2) * sizeof(char));
         if(pathEntrada == NULL){
@@ -45,6 +47,7 @@ char *trataStringCaminho(char dirEntrada[], char arqGeo[]){
         strcpy(pathEntrada, dirEntrada);
         strcat(pathEntrada, arqGeo);
     }
+
     else if(dirEntrada[strlen(dirEntrada) - 1] == '/' && arqGeo[0] == '.'){
         //printf("%ld", strlen(arqGeo));
         pathEntrada = (char *)malloc((strlen(dirEntrada) + strlen(arqGeo)) * sizeof(char));
@@ -62,6 +65,7 @@ char *trataStringCaminho(char dirEntrada[], char arqGeo[]){
         //printf("%ld",strlen(arqGeo));
         strcat(pathEntrada, nomeGeo);
     }
+
     else if(dirEntrada[strlen(dirEntrada) - 1] != '/' && arqGeo[0] == '.'){
         pathEntrada = (char *)malloc(((strlen(dirEntrada) + strlen(arqGeo)) + 1) * sizeof(char));
         if(pathEntrada == NULL){
@@ -77,6 +81,7 @@ char *trataStringCaminho(char dirEntrada[], char arqGeo[]){
         memcpy(nomeGeo, arqGeo + 1, strlen(arqGeo));
         strcat(pathEntrada, nomeGeo);
     }
+    
     free(nomeGeo);
     return pathEntrada;
 }
@@ -119,6 +124,7 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
             }
         }
     }
+
     else if(dirSaida[strlen(dirSaida) - 1] != '/' && arqGeo[0] != '/' && arqGeo[0] != '.'){
         if(strcmp(tipoArqE, "geo") == 0){
             pathSaida = (char *)malloc(((strlen(dirSaida) + strlen(arqGeo)) + 3) * sizeof(char));
@@ -156,6 +162,7 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
             }
         }
     }
+
     else if((dirSaida[strlen(dirSaida) - 1] != '/' && arqGeo[0] == '/') || (dirSaida[strlen(dirSaida) - 1] == '/' && arqGeo[0] != '/' && arqGeo[0] != '.')){
         if(strcmp(tipoArqE, "geo") == 0){
             pathSaida = (char *)malloc((strlen(dirSaida) + strlen(arqGeo) + 2) * sizeof(char));
@@ -195,6 +202,7 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
             }
         }
     }
+
     else if (dirSaida[strlen(dirSaida) - 1] == '/' && arqGeo[0] == '.'){
         //printf("%ld", strlen(arqGeo));
         if (strcmp(tipoArqE, "geo") == 0){
@@ -234,6 +242,7 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
             }
         }
     }
+
     else if(dirSaida[strlen(dirSaida) - 1] != '/' && arqGeo[0] == '.'){
         if(strcmp(tipoArqE, "geo") == 0){
             pathSaida = (char *)malloc(((strlen(dirSaida) + strlen(arqGeo)) + 1) * sizeof(char));
@@ -258,7 +267,7 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
         //     strncat(pathSaida, nomeSvg, strlen(nomeSvg) - 4);
         //     strcat(pathSaida, ".svg");
         // }
-        memcpy(nomeSvg, arqGeo + 1, strlen(arqGeo)); //aqui não poderia ser o arqGeo
+        memcpy(nomeSvg, arqGeo + 1, strlen(arqGeo)); //aqui nao poderia ser o arqGeo
         strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
         if(strcmp(tipoArqE, "geo") == 0){
             strcat(pathSaida, ".svg");

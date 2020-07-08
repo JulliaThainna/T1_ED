@@ -46,6 +46,7 @@ No *abreQry(No *inicio, char dirEntrada[], char arqQry[], char pathSaida[]){
 
     fclose(qry);
     free(pathEntrada);
+
     return inicio;
 }
 
@@ -63,6 +64,7 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
         printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
         exit(1);
     }
+    
     printf("\n\tArquivo .txt aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
 
@@ -73,9 +75,10 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
         if(feof(qry)){
             break;
         }
+        
         if(strcmp(comando, "o?") == 0){ 
             fscanf(qry, "%d %d", &j, &k);
-            printf("\n\n\t\tVERIFICANDO SOBREPOSIÇÃO . . .");
+            printf("\n\n\t\tVERIFICANDO SOBREPOSIcaO . . .");
             retorno = sobrepoe(inicio, j, k, retorno);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
             inicio = adicionaElemento(inicio, i*-1, 'r');
@@ -86,9 +89,10 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
                 geraCoordenadas(inicio, j, k, x, y, comando, retorno, i*-1);
             }
         }
+       
         else if(strcmp(comando, "i?") == 0){
             fscanf(qry, "%d %f %f", &j, &x, &y);
-            printf("\n\n\t\tVERIFICANDO SE O PONTO X,Y É INTERNO . . .");
+            printf("\n\n\t\tVERIFICANDO SE O PONTO X,Y e INTERNO . . .");
             retorno = ponto(inicio, j, x, y, retorno);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
             inicio = adicionaElemento(inicio, i*-1, 'c');
@@ -101,25 +105,28 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
                 geraCoordenadas(inicio, j, k, x, y, comando, retorno, i*-1);
             }
         }
+        
         else if(strcmp(comando, "pnt") == 0){
             fscanf(qry, "%d %s %s", &j, corb, corp);
             printf("\n\n\t\tMUDANDO COR . . .");
             retorno = mudaCorj(inicio, j, corb, corp);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
         }
+
         else if(strcmp(comando, "pnt*") == 0){
             fscanf(qry, "%d %d %s %s", &j, &k, corb, corp);
             printf("\n\n\t\tMUDANDO CORES . . .");
             retorno = mudaCorjk(inicio, j, k, corb, corp);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
         }
+        
         else if(strcmp(comando, "delf") == 0){
             fscanf(qry, "%d", &j);
             printf("\n\n\t\tDELETANDO ELEMENTO . . .");
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
-            inicio = deletaElementoj(inicio, j);
-            
+            inicio = deletaElementoj(inicio, j);       
         }
+        
         else if(strcmp(comando, "delf*") == 0){
             fscanf(qry, "%d %d", &j, &k);
             printf("\n\n\t\tDELETANDO ELEMENTOS. . .");
@@ -139,14 +146,14 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
     /*
     -buscar formas
     -identificar os tipos
-    -verificar se existe a sobreposição
+    -verificar se existe a sobreposicao
     */
     No *auxJ = buscaElemento(inicio, j); //fixo (x e y , x+w e y+h)
     if(auxJ == NULL){
         printf("\n\tNao foi possivel encontrar o elemento J. ID: %d!", j);
         return -2;
     }
-    No *auxK = buscaElemento(inicio, k); //móvel (px e py)
+    No *auxK = buscaElemento(inicio, k); //movel (px e py)
     if(auxK == NULL){
         printf("\n\tNao foi possivel encontrar o elemento K. ID: %d!", k);
         return -2;
@@ -181,7 +188,7 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
         float w = auxJ->fig->ret.w;
         float h = auxJ->fig->ret.h;
 
-        //móvel
+        //movel
         float px = auxK->fig->ret.x;
         float py = auxK->fig->ret.y;
         
@@ -224,11 +231,11 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
 
     else if((auxJ->tipo == 'c' && auxK->tipo == 'r') || (auxJ->tipo == 'r' && auxK->tipo == 'c')){ //retangulo e circulo e vice-versa
         /*
-            1 - Pegar círculo ok
-            2 - Pegar retângulo ok
-            3 - Achar o Nearest do Retângulo em relação ao raio ok
-            4 - Achar a distância do N ao raio do circulo ok
-            5 - Fazer a condição d < r ok
+            1 - Pegar circulo ok
+            2 - Pegar retangulo ok
+            3 - Achar o Nearest do Retangulo em relacao ao raio ok
+            4 - Achar a distancia do N ao raio do circulo ok
+            5 - Fazer a condicao d < r ok
         */
         No *ret = NULL;
         No *crl = NULL;
@@ -267,7 +274,7 @@ int sobrepoe(No *inicio, int j, int k, int dentro){  //o?
     }
 
     else if (auxJ->tipo == 't' || auxK->tipo == 't'){ //texto
-        printf("\n\tNao e possivel verificar sobreposições no tipo texto!");
+        printf("\n\tNao e possivel verificar sobreposicoes no tipo texto!");
         return -1;
     }
     
@@ -286,7 +293,7 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
         //distancia de x = aux->fig->crl.x - x
         //distancia de y = aux->fig->crl.y - y
         //d^2 = dX^2 + dY^2
-        //condição: d < r, d^2 < r^2
+        //condicao: d < r, d^2 < r^2
         //ou seja, dx^2 + dy^2 < r^2
         printf("\n\tO ponto %f,%f", x,y);
         x = aux->fig->crl.x - x;
@@ -316,8 +323,7 @@ int ponto(No *inicio, int j, float x, float y, int interno){ //i?
 
     else if(aux->tipo == 't'){ //texto
         interno = -1;
-        printf("\n\tNao e possivel verificar um ponto no tipo texto!");
-        
+        printf("\n\tNao e possivel verificar um ponto no tipo texto!");     
     }
 
     return interno;
@@ -394,6 +400,7 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
     No *auxJ = buscaElemento(inicio, j);
     float xMeio, yMeio;
     float xR, yR, wR, hR;
+    float sobraX = 0, sobraY = 0;
  
     if(strcmp(comando, "i?") == 0){
         if(auxJ->tipo == 'r'){
@@ -424,31 +431,26 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
             hR = auxK->fig->ret.y + auxK->fig->ret.h + auxJ->fig->ret.y + auxJ->fig->ret.h;
         }
 
-        if(auxJ->tipo == 'c' && auxK->tipo == 'c'){
-            xR = MIN(auxJ->fig->crl.x, auxK->fig->crl.x);
-            yR = MIN(auxJ->fig->crl.y, auxK->fig->crl.y);
-            if(xR == auxJ->fig->crl.x){
-                xR += auxJ->fig->crl.r;
+        /*if(auxJ->tipo == 'c' && auxK->tipo == 'c'){ 
+            No *cMaior = NULL;
+            No *cMenor = NULL;
+
+            xR = MIN(auxJ->fig->crl.x - auxJ->fig->crl.r, auxK->fig->crl.x - auxK->fig->crl.r);
+            if(xR = auxJ->fig->crl.x - auxJ->fig->crl.r){
+               cMenor = auxJ; 
+               cMaior = auxK;
             }
             else{
-                xR += auxK->fig->crl.r;
-            }
-            
-            if(yR == auxJ->fig->crl.y){
-                yR += auxJ->fig->crl.r;
-            }
-            else{
-                yR += auxK->fig->crl.r;
+                cMenor = auxK;
+                cMaior = auxJ;
             }
 
-            wR = (auxJ->fig->crl.r + auxJ->fig->crl.x) * 2 + (auxK->fig->crl.r + auxK->fig->crl.x);
-            hR = (auxJ->fig->crl.r + auxJ->fig->crl.y) * 2 + (auxK->fig->crl.r + auxK->fig->crl.y);
-        }
+            sobraX = abs((cMenor->fig->crl.x - cMenor->fig->crl.r) - cMaior->fig->crl.r + cMaior->fig->crl.x);
+        }*/
     
         if((auxJ->tipo == 'r' && auxK->tipo == 'c') || (auxJ->tipo == 'c' && auxK->tipo == 'r')){
             No *ret = NULL;
             No *crl = NULL;
-            float sobraX = 0, sobraY = 0;
 
             if(auxJ->tipo == 'c'){
                 crl = auxJ;
@@ -459,36 +461,56 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
                 ret = auxJ;
             }
 
-            xR = MIN(crl->fig->crl.x, ret->fig->ret.x);
-            yR = MIN(crl->fig->crl.y, ret->fig->ret.y);
-            if(xR == crl->fig->crl.x){ //se o x circulo estiver em 1o
-                xR -= crl->fig->crl.r;
-                sobraX = (crl->fig->crl.x + crl->fig->crl.r) - ret->fig->ret.x;
+            //Ve qual x,y comeca o retangulo a ser desenhado
+            xR = MIN(crl->fig->crl.x - crl->fig->crl.r, ret->fig->ret.x);
+            if(xR == crl->fig->crl.x - crl->fig->crl.r){ //se o x circulo estiver em 1o no x
+                if(crl->fig->crl.x - crl->fig->crl.r < ret->fig->ret.x && crl->fig->crl.x + crl->fig->crl.r > ret->fig->ret.x + ret->fig->ret.w){
+                    wR = crl->fig->crl.x * 2;
+                }
+                else{
+                    sobraX = abs((crl->fig->crl.x - crl->fig->crl.r) - ret->fig->ret.x);
+                    wR = ret->fig->ret.w + sobraX;               
+                }
+            } 
+            else{ 
+                if(crl->fig->crl.x + crl->fig->crl.r <= ret->fig->ret.x + ret->fig->ret.w && crl->fig->crl.x - crl->fig->crl.r >= ret->fig->ret.x){
+                    sobraX = 0;
+                }
+                else{
+                    sobraX = (crl->fig->crl.x + crl->fig->crl.r) - (ret->fig->ret.x + ret->fig->ret.w);
+                }
+                wR = ret->fig->ret.w + sobraX;
             }
-            else{
-                sobraX = (crl->fig->crl.x - crl->fig->crl.r) - (ret->fig->ret.x + ret->fig->ret.w);
-            }
-            wR = ((crl->fig->crl.r * 2) + ret->fig->ret.w) - sobraX;
 
-            if(yR == crl->fig->crl.y){
-                yR -= crl->fig->crl.r;
-            }
-            if(crl->fig->crl.y >= ret->fig->ret.y){
-                sobraY = (crl->fig->crl.y - crl->fig->crl.r) - ret->fig->ret.y;
+
+            yR = MIN(crl->fig->crl.y - crl->fig->crl.r, ret->fig->ret.y);
+            if(yR == crl->fig->crl.y - crl->fig->crl.r){ //se o circulo é o primeiro no y
+                if(crl->fig->crl.y - crl->fig->crl.r < ret->fig->ret.y && crl->fig->crl.y + crl->fig->crl.r > ret->fig->ret.y + ret->fig->ret.h){
+                    hR = crl->fig->crl.y * 2;
+                }
+                else{
+                    sobraY = abs((crl->fig->crl.y - crl->fig->crl.r) - ret->fig->ret.y);
+                    hR = ret->fig->ret.h + sobraY;
+                }
             }
             else{
-                sobraY = (crl->fig->crl.y + crl->fig->crl.r) - ret->fig->ret.y;
+                if(crl->fig->crl.y + crl->fig->crl.r <= ret->fig->ret.y + ret->fig->ret.h && crl->fig->crl.y - crl->fig->crl.r >= ret->fig->ret.y){
+                    sobraY = 0;
+                }
+                else{
+                    sobraY = (crl->fig->crl.y + crl->fig->crl.r) - (ret->fig->ret.y + ret->fig->ret.h);
+                }
+                hR = ret->fig->ret.h + sobraY;
             }
-            hR = ((crl->fig->crl.r * 2) + ret->fig->ret.h) - sobraY;
+            
         }
 
         if(retorno == 1){
-            inicio = adicionaRetangulo(inicio, id, wR, hR, xR, yR, "black", "none");
+            inicio = adicionaRetangulo(inicio, id, wR, hR, xR, yR, "none", "black");
         }
         else{
-            //inicio = adicionaRetangulo(inicio, id, wR, hR, xR, yR, "black", "none");
+            inicio = adicionaRetangulo(inicio, id, wR, hR, xR, yR, "none", "red");
         }
     }
-//<rect x="3.000000" y="3.000000" width="6.000000" height="5.000000" style="fill:black;stroke:black;fill-opacity:0.0;stroke-width:0.02"/>
     return inicio;
 }

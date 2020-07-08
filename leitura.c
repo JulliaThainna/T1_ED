@@ -21,8 +21,7 @@ No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
            printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
            exit(1);
         }
-    }
-    
+    }   
     else{
         pathEntrada = trataStringCaminho(dirEntrada, arqGeo);
         printf("\n\t > Arquivo .geo: %s", pathEntrada);
@@ -32,14 +31,13 @@ No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
             exit(1);
         }
     }
+    
     printf("\n\t Arquivo .geo aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
-
     inicio = comandoGeo(geo, inicio);
-
     fclose(geo);
-    free(pathEntrada);
 
+    free(pathEntrada);
     return inicio;
 }
 
@@ -55,20 +53,24 @@ No *comandoGeo(FILE *geo, No *inicio){
         if(feof(geo)){
             break;
         }
+
         if(strcmp(comando, "nx") == 0){
             fscanf(geo, "%d", &defaultNumMax);
             printf("\n\n\t> Numero maximo de elementos: %d", defaultNumMax);
         }
+        
         else if(strcmp("c", comando) == 0){
             fscanf(geo, "%d %f %f %f %s %s", &id, &r, &x, &y, corb, corp);
             inicio = adicionaElemento(inicio, id, 'c');
             inicio = adicionaCirculo(inicio, id, r, x, y, corb, corp);
         }
+        
         else if(strcmp("r", comando) == 0){
             fscanf(geo, "%d %f %f %f %f %s %s", &id, &w, &h, &x, &y, corb, corp);
             inicio = adicionaElemento(inicio, id, 'r');
             inicio = adicionaRetangulo(inicio, id, w, h, x, y, corb, corp);
         }
+        
         else if(strcmp("t", comando) == 0){
             fscanf(geo, "%d %f %f %s %s", &id, &x, &y, corb, corp);
             buffer = getc(geo);
@@ -76,11 +78,11 @@ No *comandoGeo(FILE *geo, No *inicio){
                 /*v ou v - executa
                 v ou f - executa
                 f ou v - executa
-                f ou f - não executa
+                f ou f - nao executa
                 
-                f e f - não executa
-                v e f - não executa
-                f e v - não executa
+                f e f - nao executa
+                v e f - nao executa
+                f e v - nao executa
                 v e v - executa*/
                 buffer = getc(geo);
                 buffer_size++;
@@ -93,12 +95,14 @@ No *comandoGeo(FILE *geo, No *inicio){
                 printf("\nErro inesperado! Memoria insuficiente para salvar o texto do elemento texto.");
                 exit(1);
             }
+
             fscanf(geo, "%[^\n]s", texto);
             inicio = adicionaElemento(inicio, id, 't');
             inicio = adicionaTexto(inicio, id, x, y, texto, corb, corp, buffer_size);
             buffer_size = 0;
             free(texto);
         }
+        
         i++;
     }
 

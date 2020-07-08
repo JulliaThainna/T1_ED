@@ -30,12 +30,12 @@ No *adicionaElemento(No *inicio, int id, char tipo){
         while(aux->prox != NULL){
             aux = aux->prox;
         }
-        aux->prox = (No*)malloc(sizeof(No)); //aqui eu aloco a memória pro elemento adicionado
+        aux->prox = (No*)malloc(sizeof(No)); //aqui eu aloco a memoria pro elemento adicionado
         if(aux->prox == NULL){
             printf("\nErro inesperado! Memoria insuficiente para adicionar um novo elemento na lista.");
             exit(1);
         }
-        aux = aux->prox; //aqui eu ando uma vez na lista para acessar o próximo
+        aux = aux->prox; //aqui eu ando uma vez na lista para acessar o proximo
         aux->id = id;
         aux->tipo = tipo;
         aux->fig = NULL;
@@ -67,20 +67,23 @@ No *imprimeLista(No *inicio){
     while(aux != NULL){
         if(aux->fig != NULL){
             if(aux->tipo == 'c'){
-                printf("\n\t\tcirculo: r: %f  x: %f   y: %f", aux->fig->crl.r, aux->fig->crl.x, aux->fig->crl.y);
+                printf("\n\t\tCirculo: r: %f   x: %f   y: %f", aux->fig->crl.r, aux->fig->crl.x, aux->fig->crl.y);
             }
             else if(aux->tipo == 'r'){
-                printf("\n\t\tret: w: %f  h: %f    x: %f  y: %f", aux->fig->ret.w, aux->fig->ret.h, aux->fig->ret.x, aux->fig->ret.y);
+                printf("\n\t\tRetangulo: w: %f   h: %f   x: %f   y: %f", aux->fig->ret.w, aux->fig->ret.h, aux->fig->ret.x, aux->fig->ret.y);
             }
             else if(aux->tipo == 't'){
-                printf("\n\t\ttexto: x: %f    y: %f   texto: %s", aux->fig->texto.x, aux->fig->texto.y, aux->fig->texto.texto);
+                printf("\n\t\tTexto: x: %f   y: %f   texto: %s", aux->fig->texto.x, aux->fig->texto.y, aux->fig->texto.texto);
             }
-            printf("    ID: %d TIPO: %c -> ", aux->id, aux->tipo);
+            else{
+                printf("\n\t\tLinha: x1: %f   y1: %f   x2: %f  y2:%f", aux->fig->linha.x1, aux->fig->linha.y1, aux->fig->linha.x2, aux->fig->linha.y2);
+            }
+            printf("   ID: %d TIPO: %c -> ", aux->id, aux->tipo);
         }
         aux = aux->prox;
     }
 
-    printf("\n\t-> NULL");
+    printf(" NULL");
     printf("\n\tLista impressa com sucesso!");
 
     return inicio;
@@ -115,7 +118,6 @@ No *adicionaRetangulo(No *inicio, int id, float w, float h, float x, float y, ch
         return NULL;
     }
 
-
     aux->fig = (Info*)malloc(sizeof(Info));
     if(aux->fig == NULL){
         printf("\nErro inesperado! Memoria insuficiente.");
@@ -128,6 +130,7 @@ No *adicionaRetangulo(No *inicio, int id, float w, float h, float x, float y, ch
     aux->fig->ret.y = y;
     strcpy(aux->fig->ret.corb, corb);
     strcpy(aux->fig->ret.corp, corp);
+    
     return inicio; 
 }
 
@@ -150,6 +153,7 @@ No *adicionaCirculo(No *inicio, int id, float r, float x, float y, char corb[], 
     aux->fig->crl.y = y;
     strcpy(aux->fig->crl.corb, corb);
     strcpy(aux->fig->crl.corp, corp);
+    
     return inicio;
 }
 
@@ -177,6 +181,7 @@ No *adicionaTexto(No *inicio, int id, float x, float y, char texto[], char corb[
     strcpy(aux->fig->texto.texto, texto);
     strcpy(aux->fig->texto.corb, corb);
     strcpy(aux->fig->texto.corp, corp);
+
     return inicio;
 }
 
@@ -228,7 +233,7 @@ No *deletaElementoj(No *inicio, int j){
     }
 
     if(aux == NULL){
-        printf("\n\tLista não foi iniciada");
+        printf("\n\tLista nao foi iniciada");
         return inicio;
     }
 
@@ -259,6 +264,7 @@ No *deletaElementojk(No *inicio, int j, int k){
     for(int i = MIN(j,k); i <= MAX(j,k); i++){
         deletaElementoj(inicio, i);
     }
+    
     return inicio;
 }
 
@@ -285,13 +291,13 @@ No *deletarElemento(No *inicio, int id){
 }
 
 Passo inicio da lista e id como parametros.
-Declaro uma variavel auxiliar que recebe o inicio da lista (para não perder o inicio)
+Declaro uma variavel auxiliar que recebe o inicio da lista (para nao perder o inicio)
 Declaro uma variavel anterior que recebe NULL
 Enquanto o auxiliar for diferente de NULL
-    Se o id do auxiliar for igual ao id passado no parametro, quer dizer que o primeiro elemento da lista é o que esta sendo procurado
+    Se o id do auxiliar for igual ao id passado no parametro, quer dizer que o primeiro elemento da lista e o que esta sendo procurado
         o inicio da lista vai receber o proximo elemento da lista
         dou free na variavel auxiliar que era o inicio
-    Senao se o id do proximo elemento da lista for igual ao id passado no parametro, quer dizer que o elemento a ser deletado nao é o primeiro da lista
+    Senao se o id do proximo elemento da lista for igual ao id passado no parametro, quer dizer que o elemento a ser deletado nao e o primeiro da lista
         a variavel anterior recebe a variavel aux
         a variavel auxiliar recebe o proximo elemento da lista
         o proximo do anterior vai receber o proximo do auxiliar

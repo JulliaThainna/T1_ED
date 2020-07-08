@@ -1,10 +1,12 @@
 #ifndef lista_H_
 #define lista_H_
 
+#include <stdbool.h>
 
 typedef struct{
     float w, h, x, y;
     char corb[22], corp[22];
+    bool trac;
 }Retangulo;
 
 typedef struct{

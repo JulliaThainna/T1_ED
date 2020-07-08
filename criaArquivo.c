@@ -16,6 +16,7 @@ char *criaArqSaida(char arqGeo[], char dirSaida[], char tipoArqE[], char tipoArq
         printf("\nErro inesperado! Nao foi possivel criar arquivo .%s.",tipoArqS);
         exit(1);
     }
+    
     printf("\n\tArquivo .%s criado com sucesso!", tipoArqS);
     fclose(arq);
 
