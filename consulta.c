@@ -78,7 +78,7 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
         
         if(strcmp(comando, "o?") == 0){ 
             fscanf(qry, "%d %d", &j, &k);
-            printf("\n\n\t\tVERIFICANDO SOBREPOSIcaO . . .");
+            printf("\n\n\t\tVERIFICANDO SOBREPOSICAO . . .");
             retorno = sobrepoe(inicio, j, k, retorno);
             escreveTexto(inicio, qrySaida, comando, corb, corp, j, k, x, y, retorno);
             inicio = adicionaElemento(inicio, i*-1, 'r');
@@ -425,28 +425,61 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
     else if(strcmp(comando, "o?") == 0){
         No *auxK = buscaElemento(inicio, k);
         if(auxJ->tipo == 'r' && auxK->tipo == 'r'){
-            xR = MIN(auxJ->fig->ret.x, auxK->fig->ret.x);
-            yR = MIN(auxJ->fig->ret.y, auxK->fig->ret.y);
-            wR = auxK->fig->ret.x + auxK->fig->ret.w + auxJ->fig->ret.x + auxJ->fig->ret.w;
-            hR = auxK->fig->ret.y + auxK->fig->ret.h + auxJ->fig->ret.y + auxJ->fig->ret.h;
+            //
         }
 
-        /*if(auxJ->tipo == 'c' && auxK->tipo == 'c'){ 
-            No *cMaior = NULL;
-            No *cMenor = NULL;
+        if(auxJ->tipo == 'c' && auxK->tipo == 'c'){ 
+            No *c1 = NULL;
+            No *c2 = NULL;
 
             xR = MIN(auxJ->fig->crl.x - auxJ->fig->crl.r, auxK->fig->crl.x - auxK->fig->crl.r);
-            if(xR = auxJ->fig->crl.x - auxJ->fig->crl.r){
-               cMenor = auxJ; 
-               cMaior = auxK;
+            if(xR == auxJ->fig->crl.x - auxJ->fig->crl.r){
+               c1 = auxJ; 
+               c2 = auxK;
             }
             else{
-                cMenor = auxK;
-                cMaior = auxJ;
+                c1 = auxK;
+                c2 = auxJ;
             }
 
-            sobraX = abs((cMenor->fig->crl.x - cMenor->fig->crl.r) - cMaior->fig->crl.r + cMaior->fig->crl.x);
-        }*/
+            //condicao pro width
+            if(c1->fig->crl.x + c1->fig->crl.r >= c2->fig->crl.x + c2->fig->crl.r && c1->fig->crl.x - c1->fig->crl.r <= c2->fig->crl.x - c2->fig->crl.r){
+                wR = c1->fig->crl.r * 2;
+            }    
+            else{
+                sobraX = abs((c1->fig->crl.x + c1->fig->crl.r) - (c2->fig->crl.x - c2->fig->crl.r));
+                if(retorno == 1){
+                    wR = MAX(c1->fig->crl.r, c2->fig->crl.r) * 2 + sobraX;
+                }
+                else{
+                    wR = c1->fig->crl.r * 2 + c2->fig->crl.r * 2 + sobraX;
+                }
+            }
+
+            yR = MIN(auxJ->fig->crl.y - auxJ->fig->crl.r, auxK->fig->crl.y - auxK->fig->crl.r);
+            if(yR == auxJ->fig->crl.y - auxJ->fig->crl.r){
+               c1 = auxJ; 
+               c2 = auxK;
+            }
+            else{
+                c1 = auxK;
+                c2 = auxJ;
+            }
+
+            //condicao pro high
+            if(c1->fig->crl.y + c1->fig->crl.r >= c2->fig->crl.y + c2->fig->crl.r && c1->fig->crl.y - c1->fig->crl.r <= c2->fig->crl.y - c2->fig->crl.r){
+                hR = c1->fig->crl.r * 2;
+            }
+            else{
+                sobraY = abs((c1->fig->crl.y + c1->fig->crl.r) - (c2->fig->crl.y - c2->fig->crl.r)); 
+                if(retorno == 1){
+                    hR = MAX(c1->fig->crl.r, c2->fig->crl.r) * 2 + sobraY;
+                } 
+                else{
+                    hR = c1->fig->crl.r * 2 + c2->fig->crl.r * 2 + sobraY;
+                }
+            }
+        }
     
         if((auxJ->tipo == 'r' && auxK->tipo == 'c') || (auxJ->tipo == 'c' && auxK->tipo == 'r')){
             No *ret = NULL;

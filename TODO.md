@@ -6,6 +6,9 @@
     - [X] Terminar os comandos pnt, pnt*, delf*
 - [X] Terminar i? 
 - [ ] Terminar o?
+    - [ ] r e r
+    - [ ] c e c
+    - [X] c e r || r e c
 - [ ] Arrumar a viewbox da funcao desenhaSvg()
 - [ ] Tentar refatorar o codigo (Principalmente do arquivo trataString)
 - [ ] Verificar bugs e possiveis furos de logica
