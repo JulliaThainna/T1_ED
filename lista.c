@@ -67,18 +67,18 @@ No *imprimeLista(No *inicio){
     while(aux != NULL){
         if(aux->fig != NULL){
             if(aux->tipo == 'c'){
-                printf("\n\t\tCirculo: r: %f   x: %f   y: %f", aux->fig->crl.r, aux->fig->crl.x, aux->fig->crl.y);
+                printf("\tCirculo: r: %f   x: %f   y: %f", aux->fig->crl.r, aux->fig->crl.x, aux->fig->crl.y);
             }
             else if(aux->tipo == 'r'){
-                printf("\n\t\tRetangulo: w: %f   h: %f   x: %f   y: %f", aux->fig->ret.w, aux->fig->ret.h, aux->fig->ret.x, aux->fig->ret.y);
+                printf("\tRetangulo: w: %f   h: %f   x: %f   y: %f", aux->fig->ret.w, aux->fig->ret.h, aux->fig->ret.x, aux->fig->ret.y);
             }
             else if(aux->tipo == 't'){
-                printf("\n\t\tTexto: x: %f   y: %f   texto: %s", aux->fig->texto.x, aux->fig->texto.y, aux->fig->texto.texto);
+                printf("\tTexto: x: %f   y: %f   texto: %s", aux->fig->texto.x, aux->fig->texto.y, aux->fig->texto.texto);
             }
             else{
-                printf("\n\t\tLinha: x1: %f   y1: %f   x2: %f  y2:%f", aux->fig->linha.x1, aux->fig->linha.y1, aux->fig->linha.x2, aux->fig->linha.y2);
+                printf("\tLinha: x1: %f   y1: %f   x2: %f  y2:%f", aux->fig->linha.x1, aux->fig->linha.y1, aux->fig->linha.x2, aux->fig->linha.y2);
             }
-            printf("   ID: %d TIPO: %c -> ", aux->id, aux->tipo);
+            printf("   ID: %d TIPO: %c -> \n", aux->id, aux->tipo);
         }
         aux = aux->prox;
     }

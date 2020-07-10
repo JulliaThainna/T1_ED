@@ -106,7 +106,9 @@ int main(int argc, char *argv[]){
         free(pathSaida);
         printf("\n\t---------------------------------------------------\n");
         pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "svg"); 
+        printf("\n\t---------------------------------------------------\n");
         lista = imprimeLista(lista);
+        printf("\n\t---------------------------------------------------\n");
         lista = desenhaSvg(lista, pathSaida); //Fazer condicao pro svg do qry
     }
     printf("\n\t---------------------------------------------------\n");

@@ -425,13 +425,63 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
     else if(strcmp(comando, "o?") == 0){
         No *auxK = buscaElemento(inicio, k);
         if(auxJ->tipo == 'r' && auxK->tipo == 'r'){
-            //
+            No *r1 = NULL;
+            No *r2 = NULL;
+
+            xR = MIN(auxJ->fig->ret.x, auxK->fig->ret.x);
+            if(xR == auxJ->fig->ret.x){
+               r1 = auxJ; 
+               r2 = auxK;
+            }
+            else{
+                r1 = auxK;
+                r2 = auxJ;
+            }
+
+            //condicao pro width
+            if(r1->fig->ret.x <= r2->fig->ret.x && r1->fig->ret.x + r1->fig->ret.w >= r2->fig->ret.x + r2->fig->ret.w){
+                wR = r1->fig->ret.w;
+            }
+            else{
+                sobraX = abs((r1->fig->ret.x + r1->fig->ret.w) - (r2->fig->ret.x));
+                if(retorno == 1){
+                    wR = MAX(r1->fig->ret.w, r2->fig->ret.w) + sobraX;
+                }
+                else{
+                    wR = r1->fig->ret.w + r2->fig->ret.w + sobraX;
+                }
+            }
+
+            //condicao pro high
+            yR = MIN(r1->fig->ret.y, r2->fig->ret.y);
+            if(yR == auxJ->fig->ret.y){
+               r1 = auxJ; 
+               r2 = auxK;
+            }
+            else{
+                r1 = auxK;
+                r2 = auxJ;
+            }
+            if(r1->fig->ret.y <= r2->fig->ret.y && r1->fig->ret.y + r1->fig->ret.h >= r2->fig->ret.y + r2->fig->ret.h){
+                hR = r1->fig->ret.h;
+            }
+            else{
+                sobraY = abs((r1->fig->ret.y + r1->fig->ret.h) - (r2->fig->ret.y));
+                if(retorno == 1){
+                    hR = MAX(r1->fig->ret.h, r2->fig->ret.h) + sobraY;
+                }
+                else{
+                    hR = r1->fig->ret.w + r2->fig->ret.w + sobraY;
+                }
+            }
+
         }
 
         if(auxJ->tipo == 'c' && auxK->tipo == 'c'){ 
             No *c1 = NULL;
             No *c2 = NULL;
 
+            //condicao pro width
             xR = MIN(auxJ->fig->crl.x - auxJ->fig->crl.r, auxK->fig->crl.x - auxK->fig->crl.r);
             if(xR == auxJ->fig->crl.x - auxJ->fig->crl.r){
                c1 = auxJ; 
@@ -442,7 +492,6 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
                 c2 = auxJ;
             }
 
-            //condicao pro width
             if(c1->fig->crl.x + c1->fig->crl.r >= c2->fig->crl.x + c2->fig->crl.r && c1->fig->crl.x - c1->fig->crl.r <= c2->fig->crl.x - c2->fig->crl.r){
                 wR = c1->fig->crl.r * 2;
             }    
@@ -456,6 +505,7 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
                 }
             }
 
+            //condicao pro high
             yR = MIN(auxJ->fig->crl.y - auxJ->fig->crl.r, auxK->fig->crl.y - auxK->fig->crl.r);
             if(yR == auxJ->fig->crl.y - auxJ->fig->crl.r){
                c1 = auxJ; 
@@ -466,7 +516,6 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
                 c2 = auxJ;
             }
 
-            //condicao pro high
             if(c1->fig->crl.y + c1->fig->crl.r >= c2->fig->crl.y + c2->fig->crl.r && c1->fig->crl.y - c1->fig->crl.r <= c2->fig->crl.y - c2->fig->crl.r){
                 hR = c1->fig->crl.r * 2;
             }
