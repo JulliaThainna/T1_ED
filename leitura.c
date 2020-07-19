@@ -16,21 +16,16 @@ No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
     if(dirEntrada == NULL){
         printf("\n\t\t > Arquivo .geo: %s", arqGeo);
         geo = fopen(arqGeo, "r");
-        if(!geo){
-            printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
     }   
     else{
         pathEntrada = trataStringCaminho(dirEntrada, arqGeo);
         printf("\n\t > Arquivo .geo: %s", pathEntrada);
         geo = fopen(pathEntrada, "r");
-        if(!geo){
-            printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Diretorio ou arquivo inexistente.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
+    }
+    if(!geo){
+         printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Diretorio ou arquivo inexistente.");
+        printf("\n---------------------------------------------------\n");
+        exit(1);
     }
 
     printf("\n\t Arquivo .geo aberto com sucesso!");
@@ -38,7 +33,7 @@ No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
     inicio = comandoGeo(geo, inicio);
     fclose(geo);
     free(pathEntrada);
-    
+
     return inicio;
 }
 
@@ -49,7 +44,7 @@ No *comandoGeo(FILE *geo, No *inicio){
     char comando[3] = {'\0', '\0', '\0'}, corb[22], corp[22], buffer;
 
     printf("\n\t\tLENDO ARQUIVO .geo . . . ");
-    while(i < defaultNumMax){
+    while(i <= defaultNumMax){
         fscanf(geo, "%s", comando);
 
         if(feof(geo)){

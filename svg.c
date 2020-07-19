@@ -7,7 +7,7 @@
 #include "trataString.h"
 #include "criaArquivo.h"
 
-No *desenhaSvg(No *inicio, char pathSaida[]){
+void desenhaSvg(No *inicio, char pathSaida[]){
     FILE *arqSvg = NULL;
 
     arqSvg = fopen(pathSaida, "w");
@@ -54,5 +54,4 @@ No *desenhaSvg(No *inicio, char pathSaida[]){
     fclose(arqSvg);
     printf("\n\tElementos .geo adicionados no .svg com sucesso!");
 
-    return inicio;
 }

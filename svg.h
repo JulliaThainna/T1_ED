@@ -4,6 +4,6 @@
 #include "lista.h"
 
 
-No *desenhaSvg(No *inicio, char pathSaida[]);
+void desenhaSvg(No *inicio, char pathSaida[]);
 
 #endif

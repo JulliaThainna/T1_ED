@@ -3,7 +3,7 @@
 
 #include "lista.h"
 
-
 No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio);
 No *comandoGeo(FILE *geo, No *inicio);
+
 #endif

@@ -10,7 +10,8 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
-No *abreQry(No *inicio, char dirEntrada[], char arqQry[], char pathSaida[]){
+
+void abreQry(No *inicio, char dirEntrada[], char arqQry[], char pathSaida[]){
     FILE *qry = NULL;
     char *pathEntrada = NULL;
 
@@ -18,40 +19,34 @@ No *abreQry(No *inicio, char dirEntrada[], char arqQry[], char pathSaida[]){
     if(dirEntrada == NULL){
         printf("\n\t\t > Arquivo .qry: %s", arqQry);
         qry = fopen(arqQry, "r");
-        if(!qry){
-            printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
     }
     else{
         pathEntrada = trataStringCaminho(dirEntrada, arqQry);
         printf("\n\t > Arquivo .qry: %s", pathEntrada);
         qry = fopen(pathEntrada, "r");
-        if(!qry){
-            printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Diretorio ou arquivo inexistente.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
+    }
+    if(!qry){
+        printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Diretorio ou arquivo inexistente.");
+        printf("\n---------------------------------------------------\n");
+        exit(1);
     }
 
     printf("\n\t Arquivo .qry aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
-    inicio = comandoQry(qry, pathSaida, inicio);
+    comandoQry(qry, pathSaida, inicio);
     fclose(qry);
     free(pathEntrada);
 
-    return inicio;
 }
 
-No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
-    int j = 0, k = 0, i = 0, retorno;
+void comandoQry(FILE *qry, char pathSaida[], No *inicio){
+    int j = 0, k = 0, i = 0, retorno = 0;
     float x, y;
     char comando[6], corb[22], corp[22];
 
     printf("\n\t\tABRINDO ARQUIVO .txt . . . ");
     printf("\n\t\t > Arquivo .txt: %s", pathSaida);
-    FILE *qrySaida = fopen(pathSaida, "a+");
+    FILE *qrySaida = fopen(pathSaida, "a");
     if(!qrySaida){
         printf("\nErro inesperado! Nao foi possivel abrir o arquivo. Arquivo inexistente.");
         printf("\n---------------------------------------------------\n");
@@ -61,6 +56,7 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
     printf("\n\tArquivo .txt aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
 
+    printf("\n\t\tLENDO ARQUIVO .qry . . . ");
     while(1){
         retorno = 0;
         fscanf(qry, "%s", comando); //vai pra proxima linha automaticamente?
@@ -138,9 +134,9 @@ No *comandoQry(FILE *qry, char pathSaida[], No *inicio){
         
         i++;
     }
+    printf("\n\n\tLeitura do arquivo .qry finalizada com sucesso!");
     fclose(qrySaida);
 
-    return inicio;
 }
 
 
@@ -399,7 +395,7 @@ int mudaCorjk(No *inicio, int j, int k, char corb[], char corp[]){ //pnt*
     return 1;
 }
 
-No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], int retorno, int id){
+void geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], int retorno, int id){
     float xMeio, yMeio;
     float xR, yR, wR, hR;
     float sobraX = 0, sobraY = 0;
@@ -591,17 +587,13 @@ No *geraCoordenadas(No *inicio, int j, int k, float x, float y, char comando[], 
             }
         }
 
+        inicio = adicionaRetangulo(inicio, id, wR, hR, xR, yR, "none", "black");
+        auxJ = buscaElemento(inicio, id);
         if(retorno == 1){
-            inicio = adicionaRetangulo(inicio, id, wR, hR, xR, yR, "none", "black");
-            auxJ = buscaElemento(inicio, id);
             auxJ->fig->ret.trac = 0;
         }
         else{
-            inicio = adicionaRetangulo(inicio, id, wR, hR, xR, yR, "none", "red");
-            auxJ = buscaElemento(inicio, id);
             auxJ->fig->ret.trac = 1;
         }
     }
-    
-    return inicio;
 }

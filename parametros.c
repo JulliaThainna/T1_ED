@@ -70,7 +70,7 @@ char *buscaParametros(char *argv[], int i){
             strcpy(parametro, argv[i]);
         }
 
-        if(strcmp(argv[1], "H") == 0){  
+        else if(strcmp(argv[1], "H") == 0){  
             printf("\t\t\tLISTA DE COMANDOS: ");
 
             printf("\n\n\tTERMINAL:");
@@ -94,6 +94,12 @@ char *buscaParametros(char *argv[], int i){
             printf("\n\tdelf* - DELETA OS ELEMENTOS");
 
             printf("\n\t---------------------------------------------------\n");
+        }
+        
+        else{
+            printf("\nComando siguel inexistente!\nDigite H para obter lista de comandos");
+            printf("\n\t---------------------------------------------------\n");
+            exit(1);           
         }
 
     return parametro;

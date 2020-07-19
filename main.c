@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
     char *pathSaida = NULL;
 
     printf("\n\t---------------------------------------------------\n");
-    for(int i = 1; argc > i; i++){    
+    for(int i = 1; argc > i; i++){    //argc 
         if(strcmp(argv[i], "-e") == 0){     
             dirEntrada = buscaParametros(argv, i);
             i++; 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
     lista = abreGeo(dirEntrada, arqGeo, lista);
     printf("\n\t---------------------------------------------------\n");
     pathSaida = criaArqSaida(arqGeo, dirSaida, "geo", "svg");
-    lista = desenhaSvg(lista, pathSaida);
+    desenhaSvg(lista, pathSaida);
     free(pathSaida);
     printf("\n\t---------------------------------------------------\n");
     lista = imprimeLista(lista);
@@ -62,14 +62,14 @@ int main(int argc, char *argv[]){
     if(arqQry != NULL){
         pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "txt");
         printf("\n\t---------------------------------------------------\n");
-        lista = abreQry(lista, dirEntrada, arqQry, pathSaida);
+        abreQry(lista, dirEntrada, arqQry, pathSaida);
         free(pathSaida);
         printf("\n\t---------------------------------------------------\n");
         pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "svg"); 
         printf("\n\t---------------------------------------------------\n");
         lista = imprimeLista(lista);
         printf("\n\t---------------------------------------------------\n");
-        lista = desenhaSvg(lista, pathSaida); 
+        desenhaSvg(lista, pathSaida); 
     }
     printf("\n\t---------------------------------------------------\n");
 
@@ -85,3 +85,7 @@ int main(int argc, char *argv[]){
     
     return 0;
 }
+
+//No *abreGeo, No *comandoGeo
+//No *abreQry, No *comandoQry
+//Por que no primeiro tem que ser No* senão a lista se perde e no segundo pode ser void?
