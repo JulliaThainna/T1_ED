@@ -50,9 +50,9 @@ int main(int argc, char *argv[]){
     }
     printf("\n\t---------------------------------------------------\n");
 
-    lista = abreGeo(dirEntrada, arqGeo, lista);
+    lista = abreGeo(lista, dirEntrada, arqGeo);
     printf("\n\t---------------------------------------------------\n");
-    pathSaida = criaArqSaida(arqGeo, dirSaida, "geo", "svg");
+    pathSaida = criaArqSaida(dirSaida, arqGeo, "geo", "svg");
     desenhaSvg(lista, pathSaida);
     free(pathSaida);
     printf("\n\t---------------------------------------------------\n");
@@ -60,12 +60,12 @@ int main(int argc, char *argv[]){
     printf("\n\t---------------------------------------------------\n");
 
     if(arqQry != NULL){
-        pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "txt");
+        pathSaida = criaArqSaida(dirSaida, arqGeo, "qry", "txt");
         printf("\n\t---------------------------------------------------\n");
         abreQry(lista, dirEntrada, arqQry, pathSaida);
         free(pathSaida);
         printf("\n\t---------------------------------------------------\n");
-        pathSaida = criaArqSaida(arqGeo, dirSaida, "qry", "svg"); 
+        pathSaida = criaArqSaida(dirSaida, arqGeo, "qry", "svg"); 
         printf("\n\t---------------------------------------------------\n");
         lista = imprimeLista(lista);
         printf("\n\t---------------------------------------------------\n");
@@ -88,4 +88,4 @@ int main(int argc, char *argv[]){
 
 //No *abreGeo, No *comandoGeo
 //No *abreQry, No *comandoQry
-//Por que no primeiro tem que ser No* senão a lista se perde e no segundo pode ser void?
+//Por que no primeiro tem que ser No* senao a lista se perde e no segundo pode ser void?

@@ -16,6 +16,8 @@ void desenhaSvg(No *inicio, char pathSaida[]){
         printf("\n---------------------------------------------------\n");
         exit(1);
     }
+    printf("\n\tArquivo .svg aberto com sucesso!");
+    printf("\n\t---------------------------------------------------\n");
     fprintf(arqSvg, "<svg>");
 
     No *aux = inicio;

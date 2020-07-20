@@ -8,7 +8,7 @@
 #include "trataString.h"
 
 
-No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
+No *abreGeo(No *inicio, char dirEntrada[], char arqGeo[]){
     FILE *geo = NULL;
     char *pathEntrada = NULL;
 
@@ -30,14 +30,14 @@ No *abreGeo(char dirEntrada[], char arqGeo[], No *inicio){
 
     printf("\n\t Arquivo .geo aberto com sucesso!");
     printf("\n\t---------------------------------------------------\n");
-    inicio = comandoGeo(geo, inicio);
+    inicio = comandoGeo(inicio, geo);
     fclose(geo);
     free(pathEntrada);
 
     return inicio;
 }
 
-No *comandoGeo(FILE *geo, No *inicio){
+No *comandoGeo(No *inicio, FILE *geo){
     int defaultNumMax = 1000, id, i = 0, buffer_size = 0;
     float r, x, y, w, h;
     char *texto = NULL;

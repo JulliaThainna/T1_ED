@@ -4,7 +4,7 @@
 #include "trataString.h"
 
 
-char *criaArqSaida(char arqGeo[], char dirSaida[], char tipoArqE[], char tipoArqS[]){
+char *criaArqSaida(char dirSaida[], char arqGeo[], char tipoArqE[], char tipoArqS[]){
     FILE *arq = NULL;
     char *pathSaida = NULL;
 

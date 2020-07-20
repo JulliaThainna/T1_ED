@@ -6,31 +6,26 @@
 #include "lista.h"
 
 
-char *trataStringCaminho(char dirEntrada[], char arqGeo[]){
-    char *nomeGeo = NULL;
+char *trataStringCaminho(char dirEntrada[], char arqE[]){
+    char *nomeArqE = NULL;
     char *pathEntrada = NULL;
 
-    if(dirEntrada[strlen(dirEntrada) - 1] == '/' && arqGeo[0] == '/'){
-        pathEntrada = (char *)malloc(((strlen(dirEntrada) + strlen(arqGeo)) + 1) * sizeof(char));
-        if(pathEntrada == NULL){
-            printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
-        nomeGeo = (char *)malloc(strlen(arqGeo) + 1);
-        if(nomeGeo == NULL){
+    if(dirEntrada[strlen(dirEntrada) - 1] == '/' && arqE[0] == '/'){
+        pathEntrada = (char *)malloc(((strlen(dirEntrada) + strlen(arqE)) + 1) * sizeof(char));
+        nomeArqE = (char *)malloc(strlen(arqE) + 1);
+        if(pathEntrada == NULL || nomeArqE == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
             exit(1);
         }
 
         strncpy(pathEntrada, dirEntrada, strlen(dirEntrada) + 1);
-        memcpy(nomeGeo, arqGeo + 1, strlen(arqGeo));
-        strcat(pathEntrada, nomeGeo);
+        memcpy(nomeArqE, arqE + 1, strlen(arqE));
+        strcat(pathEntrada, nomeArqE);
     }
 
-    else if(dirEntrada[strlen(dirEntrada) - 1] != '/' && arqGeo[0] != '/' && arqGeo[0] != '.'){
-        pathEntrada = (char *)malloc(((strlen(dirEntrada) + strlen(arqGeo)) + 3) * sizeof(char));
+    else if(dirEntrada[strlen(dirEntrada) - 1] != '/' && arqE[0] != '/' && arqE[0] != '.'){
+        pathEntrada = (char *)malloc(((strlen(dirEntrada) + strlen(arqE)) + 3) * sizeof(char));
         if(pathEntrada == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
@@ -39,11 +34,11 @@ char *trataStringCaminho(char dirEntrada[], char arqGeo[]){
 
         strncpy(pathEntrada, dirEntrada, strlen(dirEntrada) + 1);
         strcat(pathEntrada, "/");
-        strcat(pathEntrada, arqGeo);
+        strcat(pathEntrada, arqE);
     }
 
-    else if((dirEntrada[strlen(dirEntrada) - 1] != '/' && arqGeo[0] == '/') || (dirEntrada[strlen(dirEntrada) - 1] == '/' && arqGeo[0] != '/' && arqGeo[0] != '.')){
-        pathEntrada = (char *)malloc((strlen(dirEntrada) + strlen(arqGeo) + 2) * sizeof(char));
+    else if((dirEntrada[strlen(dirEntrada) - 1] != '/' && arqE[0] == '/') || (dirEntrada[strlen(dirEntrada) - 1] == '/' && arqE[0] != '/' && arqE[0] != '.')){
+        pathEntrada = (char *)malloc((strlen(dirEntrada) + strlen(arqE) + 2) * sizeof(char));
         if(pathEntrada == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
@@ -51,48 +46,38 @@ char *trataStringCaminho(char dirEntrada[], char arqGeo[]){
         }
 
         strcpy(pathEntrada, dirEntrada);
-        strcat(pathEntrada, arqGeo);
+        strcat(pathEntrada, arqE);
     }
 
-    else if(dirEntrada[strlen(dirEntrada) - 1] == '/' && arqGeo[0] == '.'){
-        //printf("%ld", strlen(arqGeo));
-        pathEntrada = (char *)malloc((strlen(dirEntrada) + strlen(arqGeo)) * sizeof(char));
-        if(pathEntrada == NULL){
-            printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
-        nomeGeo = (char *)malloc(strlen(arqGeo) + 1);
-        if(nomeGeo == NULL){
+    else if(dirEntrada[strlen(dirEntrada) - 1] == '/' && arqE[0] == '.'){
+        //printf("%ld", strlen(arqE));
+        pathEntrada = (char *)malloc((strlen(dirEntrada) + strlen(arqE)) * sizeof(char));
+        nomeArqE = (char *)malloc(strlen(arqE) + 1);
+        if(pathEntrada == NULL || nomeArqE == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
             exit(1);
         }
 
         strcpy(pathEntrada, dirEntrada);
-        memcpy(nomeGeo, arqGeo + 2, strlen(arqGeo) - 1);
-        strcat(pathEntrada, nomeGeo);
+        memcpy(nomeArqE, arqE + 2, strlen(arqE) - 1);
+        strcat(pathEntrada, nomeArqE);
     }
 
-    else if(dirEntrada[strlen(dirEntrada) - 1] != '/' && arqGeo[0] == '.'){
-        pathEntrada = (char *)malloc(((strlen(dirEntrada) + strlen(arqGeo)) + 1) * sizeof(char));
-        if(pathEntrada == NULL){
-            printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
-        nomeGeo = (char *)malloc(strlen(arqGeo) + 1);
-        if(nomeGeo == NULL){
+    else if(dirEntrada[strlen(dirEntrada) - 1] != '/' && arqE[0] == '.'){
+        pathEntrada = (char *)malloc(((strlen(dirEntrada) + strlen(arqE)) + 1) * sizeof(char));
+        nomeArqE = (char *)malloc(strlen(arqE) + 1);
+        if(pathEntrada == NULL || nomeArqE == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
             exit(1);
         }
 
         strcpy(pathEntrada, dirEntrada);
-        memcpy(nomeGeo, arqGeo + 1, strlen(arqGeo));
-        strcat(pathEntrada, nomeGeo);
+        memcpy(nomeArqE, arqE + 1, strlen(arqE));
+        strcat(pathEntrada, nomeArqE);
     } 
-    free(nomeGeo);
+    free(nomeArqE);
 
     return pathEntrada;
 }
@@ -108,14 +93,9 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
         else{
             pathSaida = (char *)malloc(((strlen(dirSaida) + strlen(arqGeo)) + 3) * sizeof(char));
         }
-        if(pathSaida == NULL){
-            printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
 
         nomeSvg = (char *)malloc(strlen(arqGeo) + 1);
-        if(nomeSvg == NULL){
+        if(pathSaida == NULL || nomeSvg == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
             exit(1);
@@ -125,18 +105,6 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
         strcpy(nomeSvg, arqGeo);
         pathSaida[strlen(pathSaida) - 1] = '\0';
         strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
-
-        if(strcmp(tipoArqE, "geo") == 0){
-            strcat(pathSaida, ".svg");
-        }
-        else{
-            if(strcmp(tipoArqS, "svg") == 0){
-                strcat(pathSaida, "-q.svg");
-            }
-            else{
-                strcat(pathSaida, "-q.txt");
-            }
-        }
     }
 
     else if(dirSaida[strlen(dirSaida) - 1] != '/' && arqGeo[0] != '/' && arqGeo[0] != '.'){
@@ -146,14 +114,9 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
         else{
             pathSaida = (char *)malloc(((strlen(dirSaida) + strlen(arqGeo)) + 5) * sizeof(char));
         }
-        if(pathSaida == NULL){
-            printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
 
         nomeSvg = (char *)malloc(strlen(arqGeo) + 1);
-        if(nomeSvg == NULL){
+        if(pathSaida == NULL || nomeSvg == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
             exit(1);
@@ -169,20 +132,8 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
         else{
             strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
         }
-
-        if(strcmp(tipoArqE, "geo") == 0){
-            strcat(pathSaida, ".svg");
-        }
-        else{
-            if(strcmp(tipoArqS, "svg") == 0){
-                strcat(pathSaida, "-q.svg");
-            }
-            else{
-                strcat(pathSaida, "-q.txt");
-            }
-        }
-    }
-
+    } 
+    
     else if((dirSaida[strlen(dirSaida) - 1] != '/' && arqGeo[0] == '/') || (dirSaida[strlen(dirSaida) - 1] == '/' && arqGeo[0] != '/' && arqGeo[0] != '.')){
         if(strcmp(tipoArqE, "geo") == 0){
             pathSaida = (char *)malloc((strlen(dirSaida) + strlen(arqGeo) + 2) * sizeof(char));
@@ -190,14 +141,9 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
         else{
             pathSaida = (char *)malloc((strlen(dirSaida) + strlen(arqGeo) + 4) * sizeof(char));
         }
-        if(pathSaida == NULL){
-            printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
 
         nomeSvg = (char *)malloc(strlen(arqGeo) + 1);
-        if(nomeSvg == NULL){
+        if(pathSaida == NULL || nomeSvg == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
             exit(1);
@@ -215,18 +161,6 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
             }
             strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
         }
-
-        if(strcmp(tipoArqE, "geo") == 0){
-            strcat(pathSaida, ".svg");
-        }
-        else{
-            if(strcmp(tipoArqS, "svg") == 0){
-                strcat(pathSaida, "-q.svg");
-            }
-            else{
-                strcat(pathSaida, "-q.txt");
-            }
-        }
     }
 
     else if(dirSaida[strlen(dirSaida) - 1] == '/' && arqGeo[0] == '.'){
@@ -237,14 +171,9 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
         else{
             pathSaida = (char *)malloc((strlen(dirSaida) + strlen(arqGeo) + 2) * sizeof(char));
         }
-        if(pathSaida == NULL){
-            printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
 
         nomeSvg = (char *)malloc(strlen(arqGeo) + 1);
-        if(nomeSvg == NULL){
+        if(pathSaida == NULL || nomeSvg == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
             exit(1);
@@ -261,18 +190,6 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
             pathSaida[strlen(pathSaida) - 1] = '\0';
             strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
         }
-
-        if(strcmp(tipoArqE, "geo") == 0){
-            strcat(pathSaida, ".svg");
-        }
-        else{
-            if(strcmp(tipoArqS, "svg") == 0){
-                strcat(pathSaida, "-q.svg");
-            }
-            else{
-                strcat(pathSaida, "-q.txt");
-            }
-        }
     }
     
     else if(dirSaida[strlen(dirSaida) - 1] != '/' && arqGeo[0] == '.'){
@@ -282,14 +199,9 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
         else{
             pathSaida = (char *)malloc(((strlen(dirSaida) + strlen(arqGeo)) + 3) * sizeof(char));
         }
-        if(pathSaida == NULL){
-            printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
-            printf("\n---------------------------------------------------\n");
-            exit(1);
-        }
 
         nomeSvg = (char *)malloc(strlen(arqGeo) + 1);
-        if(nomeSvg == NULL){
+        if(pathSaida == NULL || nomeSvg == NULL){
             printf("\nErro inesperado! Memoria insuficiente para salvar o caminho do arquivo .geo.");
             printf("\n---------------------------------------------------\n");
             exit(1);
@@ -298,17 +210,17 @@ char *trataStringTipo(char dirSaida[], char arqGeo[], char tipoArqE[], char tipo
         strcpy(pathSaida, dirSaida);
         memcpy(nomeSvg, arqGeo + 1, strlen(arqGeo)); //aqui nao poderia ser o arqGeo
         strncat(pathSaida, strrchr(nomeSvg, '/'), strlen(strrchr(nomeSvg, '/')) - 4);
-        
-        if(strcmp(tipoArqE, "geo") == 0){
-            strcat(pathSaida, ".svg");
+    }
+
+    if(strcmp(tipoArqE, "geo") == 0){
+        strcat(pathSaida, ".svg");
+    }
+    else{
+        if(strcmp(tipoArqS, "svg") == 0){
+            strcat(pathSaida, "-q.svg");
         }
         else{
-            if(strcmp(tipoArqS, "svg") == 0){
-                strcat(pathSaida, "-q.svg");
-            }
-            else{
-                strcat(pathSaida, "-q.txt");
-            }
+            strcat(pathSaida, "-q.txt");
         }
     }
     free(nomeSvg);
